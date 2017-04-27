@@ -1,0 +1,8 @@
+<p>1、默认，服务端输出leftTime，把客户端时间干扰降到最低。单位秒，可以接受小数，精准度0.1s</p>
+<countdown [config]="{leftTime: 1000 * 10, 'size': 'lite'}">剩余时间：$!d!天$!h!时$!m!分$!s!秒</countdown>
+<countdown [config]="{leftTime: 1000 * 10, 'size': 'medium'}">剩余时间：$!d!天$!h!时$!m!分$!s!秒</countdown>
+<countdown [config]="{leftTime: 1000 * 10, 'size': 'large'}">剩余时间：$!d!天$!h!时$!m!分$!s!秒</countdown>
+<p>2、滑动效果</p>
+<countdown [config]="{leftTime: 1000 * 10, 'size': 'lite', effect: 'slide'}">剩余时间：$!d!天$!h!时$!m!分$!s!秒</countdown>
+<countdown [config]="{leftTime: 1000 * 10, 'size': 'medium', effect: 'slide'}">剩余时间：$!d!天$!h!时$!m!分$!s!秒</countdown>
+<countdown [config]="{leftTime: 1000 * 10, 'size': 'large', effect: 'slide'}">剩余时间：$!d!天$!h!时$!m!分$!s!秒</countdown>
