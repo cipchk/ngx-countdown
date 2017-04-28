@@ -3,7 +3,7 @@ export interface Config {
      * 自定义模板，如果为空以组件 innerHTML 为准，再不然使用默认值。
      * 
      * @type {string}
-     * @default ${d}天${h}时${m}分
+     * @default $!h!时$!m!分$!s!秒
      */
     template?: string;
 
@@ -14,16 +14,6 @@ export interface Config {
      * @default lite
      */
     size?: 'lite' | 'medium' | 'large';
-
-    /**
-     * 动画效果
-     * slide：滑动
-     * flip：翻牌
-     * 
-     * @type {('normal' | 'slide' | 'flip')}
-     * @default normal
-     */
-    effect?: 'normal' | 'slide' | 'flip';
 
     /**
      * 剩余时间，单位：秒
@@ -65,4 +55,16 @@ export interface Config {
      * @type {number[]}
      */
     notify?: number[];
+
+    /**
+     * 自定义类名
+     * 
+     * @type {string}
+     */
+    className?: string;
+
+    /**
+     * 重绘
+     */
+    repaint?: Function;
 }

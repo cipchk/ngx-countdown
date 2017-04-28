@@ -6,42 +6,63 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HighlightJsModule } from 'ngx-highlight-js';
 import { NotifyModule } from 'ngx-notify';
+import { TabsModule } from "ngx-bootstrap";
 
 import { CountdownModule } from 'ngx-countdown';
 
 import { AppComponent } from './app.component';
+import { LayoutComponent } from './components/layout.component';
 import { DemoComponent } from './components/demo.component';
-import { OtherComponent } from './components/other.component';
+import { ALotComponent } from './components/alot.component';
+import { TplComponent } from './components/tpl.component';
 import { NothingComponent } from './components/nothing.component';
+import { TplFlipComponent } from './tpl/flip/flip.component';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    CommonModule,
-    HighlightJsModule,
-    NotifyModule.forRoot({
-        notify: {
-            theme: 'bootstrap',
-            progress: false
-        }
-    }),
-    RouterModule.forRoot([
-        { path: '', component: DemoComponent },
-        { path: 'other', component: OtherComponent },
-        { path: 'nothing', component: NothingComponent }
-    ], { useHash: true }),
-    CountdownModule
-  ],
-  declarations: [
-    AppComponent,
-    DemoComponent,
-    OtherComponent,
-    NothingComponent
-  ],
-  providers: [  ],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        CommonModule,
+        HighlightJsModule,
+        TabsModule.forRoot(),
+        NotifyModule.forRoot({
+            notify: {
+                theme: 'bootstrap',
+                progress: false
+            }
+        }),
+        RouterModule.forRoot([
+            {
+                path: '',
+                component: LayoutComponent,
+                children: [
+                    { path: '', component: DemoComponent },
+                    { path: 'alot', component: ALotComponent },
+                    { path: 'tpl', component: TplComponent },
+                    { path: 'nothing', component: NothingComponent }
+                ]
+            },
+            {
+                path: 'tpl',
+                children: [
+                    { path: 'flip', component: TplFlipComponent }
+                ]
+            }
+        ], { useHash: true }),
+        CountdownModule
+    ],
+    declarations: [
+        AppComponent,
+        LayoutComponent,
+        DemoComponent,
+        ALotComponent,
+        NothingComponent,
+        TplComponent,
+        TplFlipComponent
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 
 export class AppDemoModule {

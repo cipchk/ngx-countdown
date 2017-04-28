@@ -1,24 +1,30 @@
-import { Component, ElementRef, ViewEncapsulation, Input, Renderer, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, Input, Renderer, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, HostBinding } from '@angular/core';
 import { Config } from './interfaces/config';
 import { Hand } from './interfaces/hand';
 import { Timer } from './timer';
-import { Effect, IEffect } from './effect';
 
 @Component({
     selector: 'countdown',
     template: `<ng-content></ng-content>`,
+    host: {
+        '[class]': 'cls'
+    },
     styles: [`
+.count-down{display:none;color:#808080;font-size:12px;font-family:arial, '\5b8b\4f53'}.count-down span{text-decoration:none}.count-down .clock{font-weight:bold}.count-down .hand{margin:0 3px}.count-down .digital{color:#f60;font-size:14px;font-weight:normal}.count-down.medium .digital{color:#404040;font-size:24px}.count-down.large .hand{display:inline-block;padding:0 2px;width:32px;height:35px;line-height:35px;box-sizing:initial;background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF8AAAAjCAYAAADyrNZPAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAAGYktHRAD/AP8A/6C9p5MAAAAJcEhZcwAACxMAAAsTAQCanBgAAAHRSURBVGje7doxihtBEEbhV0NHwjCgRAYfwIMDH8BsugfYK0g6gMFX2NTgA+gsmxi8NzBStKnB0cJKkfovB17JJ+ipAndHAiXva0rFCMY2mw3AO+ArcPP6ec7zC3gEvux2uyeA7XYb2TOb1dbr9Xvgh5ktzSykyN1x92fgE1Cje+ayFne/N7Pl5YvAM7r7PVCT9DS3Fne/NbMUUHe/5e/lp+hpbS2Sxiw/b0lvALL0tLaW1x0U3QL8WzNZelpbiySGYYhuAUASQJqe1tYiKc2kXS4/S09ra187gdYi6Tpx0efSkaWntbWvnUBrv/xAa187gdZ++YHWvnYCrX3yA6198gOtRRKLxSK6BYDj8QiQpqe1tdRaORwO0S0AjOMIkKantbVIYrVaRbcAcDqdANL0tLb2nR9o7U87gdZ++YHWfvmB1n75gdYiifP5HN1yDQLS9LS2FknUWqNbrkFAmp7W1j75gdbi7mkm7fJ8n6WntbVPfqA11T/c/+7tBXd/ljRGxwCY2QtQs/S0thZJD+5+Fz1tZoaZPQA1Q88cVpum6QPwXdIyCmxmDMNweT+f6J65rMXdfwIfzeybmd0Ab2fu+Q08uvvn/X7/BDBNU2TPbNY/RYn/l73uadIAAAAASUVORK5CYII=") no-repeat}.count-down.large .digital{color:#fff;font-size:28px}.count-down.large .hand-s-ext{width:59px;background-position:-36px 0}
     `],
     encapsulation: ViewEncapsulation.None
 })
 export class CountdownComponent implements OnChanges, OnDestroy {
 
     @Input() config: Config;
+    @Output() start = new EventEmitter();
+    @Output() finished = new EventEmitter();
+    @Output() notify = new EventEmitter();
+    cls: string;
 
     constructor(private el: ElementRef,
         private renderer: Renderer,
-        private timer: Timer,
-        @Inject(Effect) private effect: IEffect) {
+        private timer: Timer) {
         this.timer.start();
     }
 
@@ -31,11 +37,13 @@ export class CountdownComponent implements OnChanges, OnDestroy {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (!changes.config.firstChange) this.init();
+        if (!changes.config.firstChange) {
+            this.destroy().init();
+        }
     }
 
     private frequency: number = 1000;
-    private _notify: any[] = [];
+    private _notify: any = {};
     private hands: Hand[] = [];
     private left: number = 0;
 
@@ -45,19 +53,17 @@ export class CountdownComponent implements OnChanges, OnDestroy {
 
         me.config = Object.assign(<Config>{
             leftTime: 0,
-            template: '$!d!天$!h!时$!m!分',
+            template: '$!h!时$!m!分$!s!秒',
             size: 'lite',
             effect: 'normal',
             varRegular: /\$\!([\-\w]+)\!/g,
             clock: ['d', 100, 2, 'h', 24, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1]
         }, me.config);
 
-        this.renderer.setElementClass(el, 'count-down', true);
-        this.renderer.setElementClass(el, me.config.size, true);
-        this.renderer.setElementClass(el, me.config.effect, true);
+        this.cls = `count-down ${me.config.size} ${me.config.className}`;
 
         // 分析markup
-        let tmpl = el.innerHTML;
+        let tmpl = el.innerHTML || me.config.template;
         me.config.varRegular.lastIndex = 0;
         el.innerHTML = tmpl.replace(me.config.varRegular, (str: string, type: string) => {
             // 时钟频率校正.
@@ -69,14 +75,14 @@ export class CountdownComponent implements OnChanges, OnDestroy {
             if (type === 's-ext') {
                 me.hands.push({ type: 's' });
                 me.hands.push({ type: 'u' });
-                content = me._html('', 's', 'handlet') +
-                    me._html('.', '', 'digital') +
-                    me._html('', 'u', 'handlet');
+                content = me.html('', 's', 'handlet') +
+                    me.html('.', '', 'digital') +
+                    me.html('', 'u', 'handlet');
             } else {
                 me.hands.push({ type: type });
             }
 
-            return me._html(content, type, 'hand');
+            return me.html(content, type, 'hand');
         });
 
         const clock = me.config.clock;
@@ -108,13 +114,27 @@ export class CountdownComponent implements OnChanges, OnDestroy {
             return _reflow.apply(me, [count]);
         };
 
+        // 构建 notify
+        if (me.config.notify) {
+            me.config.notify.forEach((time: number) => {
+                if (time < 1) throw new Error('由于当结束会调用 finished，所以 notify 通知必须全是正整数');
+                time = time * 1000;
+                time = time - time % me.frequency;
+                me._notify[time] = true;
+            });
+        }
+
+        me.start.emit();
         me.timer.add(me.reflow, me.frequency);
         // show
-        el.style.display = 'inline'
+        el.style.display = 'inline';
+
+        return me;
     }
 
     private destroy() {
         this.timer.remove(this.reflow);
+        return this;
     }
 
     /**
@@ -132,22 +152,38 @@ export class CountdownComponent implements OnChanges, OnDestroy {
         me.repaint();
 
         if (me._notify[me.left]) {
-            me._notify[me.left].forEach((fn: Function) => {
-                if (fn) fn.call(me);
-            })
+            me.notify.emit(me.left);
         }
 
-        if (me.left < 1)
+        if (me.left < 1) {
+            me.finished.emit(0);
             this.destroy();
+        }
     }
 
     /**
      * 重绘时钟
      */
     private repaint(): void {
-        const ef = this.effect[this.config.effect];
-        ef.paint.apply(this);
-        if (ef.afterPaint) ef.afterPaint.apply(this);
+        let me = this;
+        if (me.config.repaint) {
+            me.config.repaint.apply(me);
+            return;
+        }
+        
+        let content: string;
+
+        me.hands.forEach((hand: Hand) => {
+            if (hand.lastValue !== hand.value) {
+                content = '';
+
+                me.toDigitals(hand.value, hand.bits).forEach((digital: number) => {
+                    content += me.html(digital.toString(), '', 'digital');
+                });
+
+                hand.node.innerHTML = content;
+            }
+        });
     }
 
     /**
@@ -166,7 +202,7 @@ export class CountdownComponent implements OnChanges, OnDestroy {
     /**
      * 生成需要的html代码，辅助工具
      */
-    private _html(con: string | any[], className: string, type: string): string {
+    private html(con: string | any[], className: string, type: string): string {
         if (con instanceof Array) {
             con = con.join('');
         }
@@ -184,13 +220,13 @@ export class CountdownComponent implements OnChanges, OnDestroy {
                 }
                 break;
         }
-        return '<i class="' + className + '">' + con + '</i>';
+        return '<span class="' + className + '">' + con + '</span>';
     }
 
     /**
      * 把值转换为独立的数字形式
      */
-    private _toDigitals(value: number, bits: number): number[] {
+    private toDigitals(value: number, bits: number): number[] {
         value = value < 0 ? 0 : value;
         let digitals = [];
         // 把时、分、秒等换算成数字.

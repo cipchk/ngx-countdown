@@ -1,0 +1,157 @@
+<div class="text-center mt-5 mb-5">
+    <countdown [config]="config">
+        <div class="time">$!d!<div class="label">天</div></div>
+        <div class="time">$!h!<div class="label">时</div></div>
+        <div class="time">$!m!<div class="label">分</div></div>
+        <div class="time">$!s!<div class="label">秒</div></div>
+    </countdown>
+</div>
+<tabset>
+    <tab heading="HTML">
+        <textarea highlight-js>
+&lt;countdown [config]="config">
+    <div class="time">$!d!<div class="label">天</div></div>
+    <div class="time">$!h!<div class="label">时</div></div>
+    <div class="time">$!m!<div class="label">分</div></div>
+    <div class="time">$!s!<div class="label">秒</div></div>
+</countdown>
+        </textarea>
+    </tab>
+    <tab heading="SCSS">
+        <textarea highlight-js>.flip-cd {
+    .time {
+        border-radius: 5px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+        display: inline-block;
+        text-align: center;
+        position: relative;
+        height: 95px;
+        width: 65px;
+        perspective: 479px;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        transform: translate3d(0, 0, 0);
+    }
+    .count {
+        background: #202020;
+        color: #f8f8f8;
+        display: block;
+        font-family: 'Oswald', sans-serif;
+        font-size: 3.3em;
+        line-height: 2.4em;
+        overflow: hidden;
+        position: absolute;
+        text-align: center;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        top: 0;
+        width: 100%;
+        transform: translateZ(0);
+        transform-style: flat;
+        &.top {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px 5px 0 0;
+            height: 50%;
+            transform-origin: 50% 100%;
+        }
+        &.bottom {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            border-radius: 0 0 5px 5px;
+            line-height: 0;
+            height: 50%;
+            top: 50%;
+            transform-origin: 50% 0;
+        }
+        &.curr {
+            &.top {
+                transform: rotateX(0deg);
+                z-index: 3;
+            }
+        }
+        &.next {
+            &.bottom {
+                transform: rotateX(90deg);
+                z-index: 2;
+            }
+        }
+    }
+    .label {
+        font-size: normal;
+        margin-top: 5px;
+        display: block;
+        position: absolute;
+        top: 95px;
+        width: 100%;
+    }
+    .hand {
+        display: block;
+        height: 100%;
+        width: 100%;
+        margin: 0!important;
+    }
+    .flip {
+        .count {
+            &.curr {
+                &.top {
+                    transition: all 250ms ease-in-out;
+                    transform: rotateX(-90deg);
+                }
+            }
+            &.next {
+                &.bottom {
+                    transition: all 250ms ease-in-out 250ms;
+                    transform: rotateX(0deg);
+                }
+            }
+        }
+    }
+}
+        </textarea>
+    </tab>
+    <tab heading="TypeScript">
+        <textarea highlight-js>
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Config } from "ngx-countdown";
+
+@Component({
+    selector: 'demo-tpl-flip',
+    templateUrl: './flip.component.html',
+    styleUrls: [ './flip.component.scss' ],
+    encapsulation: ViewEncapsulation.None
+})
+export class TplFlipComponent {
+    
+    config: Config = {
+        leftTime: 60 * 60 * 24 * 7,
+        className: 'flip-cd',
+        repaint: function() { // 这里不可以使用箭头函数，因为对于箭头函数this是强制性的，为了让重绘有更大的权限，必须是function
+            let me:any = this,
+                content: string;
+                
+            me.hands.forEach((hand: any) => {
+                if (hand.lastValue !== hand.value) {
+                    content = '';
+                    let cur = me.toDigitals(hand.value + 1, hand.bits).join(''),
+                        next = me.toDigitals(hand.value, hand.bits).join('');
+
+                    hand.node.innerHTML = `
+                        <span class="count curr top">${cur}</span>
+                        <span class="count next top">${next}</span>
+                        <span class="count next bottom">${next}</span>
+                        <span class="count curr bottom">${cur}</span>
+                    `;
+                    hand.node.parentElement.className = 'time';
+                    setTimeout(() => {
+                        hand.node.parentElement.className = 'time flip';
+                    });
+                }
+            });
+        },
+    }
+
+}
+        </textarea>
+    </tab>
+</tabset>
