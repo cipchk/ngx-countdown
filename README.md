@@ -16,13 +16,13 @@ Simple, easy and performance countdown for angular
 npm install ngx-countdown --save
 ```
 
-import `GesturePasswordModule` 
+import `CountdownModule`。
 
 ```typescript
-import { GesturePasswordModule } from 'ngx-countdown';
+import { CountdownModule } from 'ngx-countdown';
 
 @NgModule({
-    imports: [ BrowserModule, GesturePasswordModule ],
+    imports: [ BrowserModule, CountdownModule ],
     declarations: [AppComponent],
     bootstrap: [AppComponent]
 })
@@ -32,52 +32,36 @@ export class AppModule { }
 ### 2、Template
 
 ```html
-<gesture-password style="height: 350px;"
-        [(ngModel)]="pwd" [type]="type" [options]="options"
-        (error)="onError($event)"
-        (checked)="onChecked($event)"
-        (beforeRepeat)="onBeforeRepeat($event)"
-        (afterRepeat)="onAfterRepeat($event)"></gesture-password>
+<countdown [config]="config" 
+    (start)="onStart($event)"
+    (finished)="onFinished($event)"
+    (notify)="onNotify($event)"></countdown>
 ```
 
 | Name    | Type           | Default  | Summary |
 | ------- | ------------- | ----- | ----- |
-| type | 'check','recorder' | 'check' | **check** 检查手势密码，**recorder** 设置手势密码 |
-| options | Options |  | 配置项 |
-| error | Function(res: Result) |  |  |
-| checked | Function(res: Result) |  | 当 type==='check' 时每一次绘制完成后触发 |
-| beforeRepeat | Function(res: Result) |  | 当 type==='recorder' 时第一次绘制完成后触发 |
-| afterRepeat | Function(res: Result) |  | 当 type==='recorder' 时第二次绘制完成后触发 |
+| config | Config |  | 配置信息，见Config |
+| start | Function |  | 开始时触发 |
+| finished | onFinished |  |结束时触发 |
+| notify | Function |  | 通知时触发，需要在 Config 中配置 notify |
 
-## Options
+## Config
 
 | Name    | Type           | Default  | Summary |
 | ------- | ------------- | ----- | ----- |
-| num | number | 3 | 圆点的数量 |
-| focusColor | string | #e06555 | 当前选中的圆的颜色 |
-| fgColor | string | #d6dae5 | 未选中的圆的颜色 |
-| bgColor | string | #fff | 背景颜色 |
-| innerRadius | number | 20 | 圆点的内半径 |
-| outerRadius | number | 50 | 圆点的外半径，focus 的时候显示 |
-| touchRadius | number | 70 | 判定touch事件的圆半径 |
-| render | boolean | true | 自动渲染 |
-| min | number | 3 | 最小允许的点数 |
-| passwords | string[] |  | 密码编码，数量必须是 num*num，否则会产生Error；默认值：`[ '1', '2', '3', '4', '5', '6', '7', '8', '9']` |
+| template | string | $!h!时$!m!分$!s!秒 | 自定义模板，如果为空以组件 innerHTML 为准，再不然使用默认值。`$!s!` 有另一种表示法 `$!s-ext!` 表示0.1s精度。  |
+| size | string | lite | lite、medium、large 三种不同风格，见DEMO |
+| leftTime | number | 0 | 剩余时间：指的是根据服务端计算剩余时间值进行倒计时，支持0.1s精度，但有可能会出现丢帧的情况。（单位：秒） |
+| stopTime | number | 0 | 结束时间：指的是根据本地时间至结束时间进行倒计时。（单位：UNIX时间戳 ms） |
+| varRegular | RegExp | `/\$\{([\-\w]+)\}/g` | 模板解析正则表达式，有时候由于模板结构比较特殊，无法根据默认的表达式进行解析，那就需要修改它。 |
+| clock | Array |  | 时钟控制数组，特殊需求时可以修改，里面是三元组：指针名、进制、位数，可参考大于99小时demo |
+| notify | number[] |  | 第xx秒时调用 notify 函数，值必须是**正整数** |
+| className | string |  | 自定义类名 |
+| repaint | Function |  | 自定义重绘 |
 
-## Enum `ERR`
+## 关于重绘
 
-+ **SUCCESS、null、undefined** 密码属于有效值。
-+ **NOT_ENOUGH_POINTS** 不足最少节点
-+ **PASSWORD_MISMATCH** 密码不匹配
-+ **USER_CANCELED** 用户主动取消
-
-## Result
-
-| Name    | Type           | Default  | Summary |
-| ------- | ------------- | ----- | ----- |
-| err | ERR |  | 错误状态，见 enum `ERR` |
-| result | string | | 根据密码编码解析后的真实密码值 |
-| records | Array | | 路径数据，只有成功状态才会返回 |
+重绘是指当Timer一次跳动时会执行一次（如果是0.1s精度的，会更频繁）；因此，可以制定一些不一样的效果。有关细节可以参考 [Flip](https://cipchk.github.io/ngx-countdown/#/tpl/flip)。
 
 ## Troubleshooting
 
