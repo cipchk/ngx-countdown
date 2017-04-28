@@ -47,15 +47,15 @@
                 <div class="mb-3">
                     <p class="card-text">在第2、5秒时通知</p>
                     <countdown [config]="config" 
-                        (start)="onStart($event)"
-                        (finished)="onFinished($event)"
+                        (start)="onStart()"
+                        (finished)="onFinished()"
                         (notify)="onNotify($event)"></countdown>
                     <div>
                         <button (click)="config={leftTime: 10, notify: [ 2, 5 ]}" class="btn btn-link btn-sm">Reset</button>
                     </div>
                 </div>
                 <textarea highlight-js>
-                    &lt;countdown [config]="{leftTime: 10, notify: [ 2, 5 ]}" (start)="onStart($event)" (finished)="onFinished($event)" (notify)="onNotify($event)"></countdown>
+                    &lt;countdown [config]="{leftTime: 10, notify: [ 2, 5 ]}" (start)="onStart()" (finished)="onFinished()" (notify)="onNotify($event)"></countdown>
                 </textarea>
             </div>
             <div class="card-footer">{{notify}}</div>

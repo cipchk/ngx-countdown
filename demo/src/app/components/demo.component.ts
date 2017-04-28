@@ -20,7 +20,7 @@ export class DemoComponent {
     onFinished() {
         this.notify = '结束了！';
     }
-    onNotify(time) {
+    onNotify(time: number) {
         this.notify = `在${time}ms时通知了一下`;
     }
 

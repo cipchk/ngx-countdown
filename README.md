@@ -33,8 +33,8 @@ export class AppModule { }
 
 ```html
 <countdown [config]="config" 
-    (start)="onStart($event)"
-    (finished)="onFinished($event)"
+    (start)="onStart()"
+    (finished)="onFinished()"
     (notify)="onNotify($event)"></countdown>
 ```
 
@@ -43,7 +43,7 @@ export class AppModule { }
 | config | Config |  | 配置信息，见Config |
 | start | Function |  | 开始时触发 |
 | finished | onFinished |  |结束时触发 |
-| notify | Function |  | 通知时触发，需要在 Config 中配置 notify |
+| notify | Function(time: number) |  | 通知时触发，需要在 Config 中配置 notify |
 
 ## Config
 
