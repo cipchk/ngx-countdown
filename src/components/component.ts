@@ -42,6 +42,11 @@ export class CountdownComponent implements OnChanges, OnDestroy {
         }
     }
 
+    restart(): void  {
+        this.destroy().init();
+        this.timer.start();
+    }
+
     private frequency: number = 1000;
     private _notify: any = {};
     private hands: Hand[] = [];
