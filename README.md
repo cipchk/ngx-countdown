@@ -45,6 +45,18 @@ export class AppModule { }
 | finished | onFinished |  |结束时触发 |
 | notify | Function(time: number) |  | 通知时触发，需要在 Config 中配置 notify |
 
+**如何重置计数器**
+
+```typescript
+@ViewChild(CountdownComponent) counter: CountdownComponent;
+resetTimer(){
+    //this.counter.config.leftTime = 5;
+    this.counter.restart();
+}
+```
+
+当然，也可以通过重新赋值 `config` 参数，也能达到一样的效果。
+
 ## Config
 
 | Name    | Type           | Default  | Summary |

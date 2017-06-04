@@ -1,6 +1,6 @@
 {
   "name": "ngx-countdown",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "typings": "index.d.ts",
   "description": "Simple, easy and performance countdown for angular",

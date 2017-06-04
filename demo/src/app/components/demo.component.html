@@ -46,12 +46,12 @@
             <div class="card-block">
                 <div class="mb-3">
                     <p class="card-text">在第2、5秒时通知</p>
-                    <countdown [config]="config" 
+                    <countdown #countdown [config]="config" 
                         (start)="onStart()"
                         (finished)="onFinished()"
                         (notify)="onNotify($event)"></countdown>
                     <div>
-                        <button (click)="config={leftTime: 10, notify: [ 2, 5 ]}" class="btn btn-link btn-sm">Reset</button>
+                        <button (click)="resetTimer()" class="btn btn-link btn-sm">Reset(using restart function)</button>
                     </div>
                 </div>
                 <textarea highlight-js>

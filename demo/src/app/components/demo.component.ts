@@ -1,6 +1,7 @@
 /* tslint:disable */
 import { Component, OnInit, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { NotifyService } from 'ngx-notify';
+import { CountdownComponent } from 'ngx-countdown';
 
 @Component({
     selector: 'demo',
@@ -27,5 +28,11 @@ export class DemoComponent {
     stopConfig: any = { stopTime: new Date().getTime() + (1000 * 30) };
     resetStop() {
         this.stopConfig = { stopTime: new Date().getTime() + (1000 * 30) };
+    }
+
+
+    @ViewChild('countdown') counter: CountdownComponent;
+    resetTimer(){
+        this.counter.restart();
     }
 }
