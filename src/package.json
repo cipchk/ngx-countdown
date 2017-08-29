@@ -1,9 +1,3 @@
 {
-  "name": "ngx-countdown",
-  "dependencies": {
-  },
-  "peerDependencies": {
-    "@angular/common": "*",
-    "@angular/core": "*"
-  }
+  "name": "ngx-countdown"
 }
