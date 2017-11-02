@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HighlightJsModule } from 'ngx-highlight-js';
 import { NotifyModule } from 'ngx-notify';
-import { TabsModule } from "ngx-bootstrap";
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { CountdownModule } from 'ngx-countdown';
 

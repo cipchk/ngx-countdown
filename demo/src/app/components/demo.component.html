@@ -2,7 +2,7 @@
     <div class="col-sm-4 mb-3">
         <div class="card text-center">
             <div class="card-header">基础效果</div>
-            <div class="card-block">
+            <div class="card-body">
                 <div class="mb-3">
                     <countdown [config]="{leftTime: 1000 * 10}"></countdown>
                 </div>
@@ -15,7 +15,7 @@
     <div class="col-sm-4 mb-3">
         <div class="card text-center">
             <div class="card-header">medium效果</div>
-            <div class="card-block">
+            <div class="card-body">
                 <div class="mb-3">
                     <countdown [config]="{leftTime: 1000 * 10, 'size': 'medium'}">剩余时间：$!h!时$!m!分$!s!秒</countdown>
                 </div>
@@ -28,7 +28,7 @@
     <div class="col-sm-4 mb-3">
         <div class="card text-center">
             <div class="card-header">large效果-精准度0.1s</div>
-            <div class="card-block">
+            <div class="card-body">
                 <div class="mb-3">
                     <countdown [config]="{leftTime: 1000 * 10, 'size': 'large'}">剩余时间：$!h!时$!m!分$!s-ext!秒</countdown>
                 </div>
@@ -43,7 +43,7 @@
     <div class="col-sm-4 mb-3">
         <div class="card text-center">
             <div class="card-header">notify</div>
-            <div class="card-block">
+            <div class="card-body">
                 <div class="mb-3">
                     <p class="card-text">在第2、5秒时通知</p>
                     <countdown #countdown [config]="config" 
@@ -64,7 +64,7 @@
     <div class="col-sm-4 mb-3">
         <div class="card text-center">
             <div class="card-header">本地时间</div>
-            <div class="card-block">
+            <div class="card-body">
                 <div class="mb-3">
                     <p class="card-text">指的是根据本地时间至结束时间进行倒计时</p>
                     <countdown [config]="stopConfig"></countdown>
@@ -82,7 +82,7 @@
     <div class="col-sm-4 mb-3">
         <div class="card text-center">
             <div class="card-header">大于24小时配置</div>
-            <div class="card-block">
+            <div class="card-body">
                 <div class="mb-3">
                     <p class="card-text">时钟控制数组，特殊需求时可以修改，里面是三元组：指针名、进制、位数</p>
                     <countdown [config]="{leftTime: 359999.9, clock: ['d', 100, 2, 'h', 100, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1] }"></countdown>

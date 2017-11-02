@@ -1,3 +1,7 @@
+# 1.0.3
+
++ Support Angular5.
+
 # 1.0.2
 
 - fix: remove `peerDependencies` [#2](https://github.com/cipchk/ngx-countdown/issues/2)

@@ -1,40 +1,38 @@
 {
-  "compilerOptions": {
-    "outDir": "../dist",
-    "target": "es5",
-    "module": "es2015",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "noEmitHelpers": false,
-    "noImplicitAny": true,
-    "declaration": true,
-    "skipLibCheck": false,
-    "stripInternal": true,
-    "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "lib": ["dom", "es6"],
-    "types": [
-      "jasmine"
+    "compilerOptions": {
+      "outDir": "../dist",
+      "target": "es5",
+      "module": "es2015",
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true,
+      "inlineSources": true,
+      "noImplicitAny": true,
+      "declaration": true,
+      "skipLibCheck": false,
+      "stripInternal": true,
+      "allowSyntheticDefaultImports": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "lib": ["dom", "es6"],
+      "types": [
+        "jasmine"
+      ],
+      "typeRoots": [
+        "../node_modules/@types"
+      ]
+    },
+    "exclude": [
+      "node_modules"
     ],
-    "typeRoots": [
-      "../node_modules/@types"
-    ]
-  },
-  "exclude": [
-    "node_modules"
-  ],
-  "files": [
-    "../scripts/typings.d.ts",
-    "./ngx-countdown.ts",
-    "./index.ts"
-  ],
-  "angularCompilerOptions": {
-    "genDir": "../temp/factories",
-    "strictMetadataEmit": true,
-    "skipTemplateCodegen": true
+    "files": [
+      "../scripts/typings.d.ts",
+      "./index.ts"
+    ],
+    "angularCompilerOptions": {
+      "genDir": "../temp/factories",
+      "strictMetadataEmit": true,
+      "skipTemplateCodegen": true
+    }
   }
-}
