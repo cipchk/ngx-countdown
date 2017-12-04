@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Timer {
     private fns: any[] = [];
     private commands: Function[] = [];
     private nextTime: number;
-    private ing: boolean = false;
+    private ing = false;
 
     start() {
         if (this.ing === true) return;
@@ -19,8 +19,8 @@ export class Timer {
         while (this.commands.length) {
             this.commands.shift()();
         }
-        let diff = +new Date() - this.nextTime,
-            count = 1 + Math.floor(diff / 100);
+        let diff = +new Date() - this.nextTime;
+        const count = 1 + Math.floor(diff / 100);
 
         diff = 100 - diff % 100;
         this.nextTime += 100 * count;
@@ -38,8 +38,8 @@ export class Timer {
                 frequency += 2 * count - 1;
 
                 step = Math.floor(frequency / 20);
-                if (step > 0) { 
-                    this.fns[i](step); 
+                if (step > 0) {
+                    this.fns[i](step);
                 }
 
                 // 把末位还原成1

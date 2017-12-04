@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewEncapsulation, Input, Renderer, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, Input, Renderer, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, HostBinding, OnInit } from '@angular/core';
 import { Config } from './interfaces/config';
 import { Hand } from './interfaces/hand';
 import { Timer } from './timer';
@@ -6,13 +6,14 @@ import { Timer } from './timer';
 @Component({
     selector: 'countdown',
     template: `<ng-content></ng-content>`,
+    // tslint:disable-next-line:use-host-property-decorator
     host: {
         '[class]': 'cls'
     },
     styleUrls: [ './component.scss' ],
     encapsulation: ViewEncapsulation.None
 })
-export class CountdownComponent implements OnChanges, OnDestroy {
+export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() config: Config;
     @Output() start = new EventEmitter();
@@ -45,10 +46,10 @@ export class CountdownComponent implements OnChanges, OnDestroy {
         this.timer.start();
     }
 
-    private frequency: number = 1000;
+    private frequency = 1000;
     private _notify: any = {};
     private hands: Hand[] = [];
-    private left: number = 0;
+    private left = 0;
 
     private init() {
         const me = this;
@@ -63,10 +64,10 @@ export class CountdownComponent implements OnChanges, OnDestroy {
             clock: ['d', 100, 2, 'h', 24, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1]
         }, me.config);
 
-        this.cls = `count-down ${me.config.size} ${me.config.className}`;
+        this.cls = `count-down ${me.config.size} ${me.config.className || ''}`;
 
         // 分析markup
-        let tmpl = el.innerHTML || me.config.template;
+        const tmpl = el.innerHTML || me.config.template;
         me.config.varRegular.lastIndex = 0;
         el.innerHTML = tmpl.replace(me.config.varRegular, (str: string, type: string) => {
             // 时钟频率校正.
@@ -90,8 +91,8 @@ export class CountdownComponent implements OnChanges, OnDestroy {
 
         const clock = me.config.clock;
         me.hands.forEach((hand: Hand) => {
-            let type = hand.type,
-                base: number = 100,
+            const type = hand.type;
+            let base = 100,
                 i: number;
 
             hand.node = el.querySelector(`.hand-${type}`);
@@ -168,7 +169,7 @@ export class CountdownComponent implements OnChanges, OnDestroy {
      * 重绘时钟
      */
     private repaint(): void {
-        let me = this;
+        const me = this;
         if (me.config.repaint) {
             me.config.repaint.apply(me);
             return;
@@ -193,8 +194,8 @@ export class CountdownComponent implements OnChanges, OnDestroy {
      * 获取倒计时剩余帧数
      */
     private getLeft(): void {
-        let left: number = this.config.leftTime * 1000,
-            end: number = this.config.stopTime;
+        let left: number = this.config.leftTime * 1000;
+        const end: number = this.config.stopTime;
 
         if (!left && end)
             left = end - new Date().getTime();
@@ -231,7 +232,7 @@ export class CountdownComponent implements OnChanges, OnDestroy {
      */
     private toDigitals(value: number, bits: number): number[] {
         value = value < 0 ? 0 : value;
-        let digitals = [];
+        const digitals = [];
         // 把时、分、秒等换算成数字.
         while (bits--) {
             digitals[bits] = value % 10;
