@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const rollup = require('gulp-rollup');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
+const sass = require('gulp-sass');
 const bump = require('gulp-bump');
 const inline_recources = require('./scripts/inline-resources');
 // @ts-ignore
@@ -25,11 +26,35 @@ function bumpVersions() {
         }))
         .pipe(gulp.dest('./'));
 }
+
 function copySources() {
     gulp.src('./src/**/*')
-        .pipe(gulp.dest(paths.build));
+        .pipe(gulp.dest(paths.build))
+        .on('end', replaceScssWithCss);
+    }
+
+function replaceScssWithCss() {
+    gulp.src(`${paths.build}/**/*.ts`)
+    .pipe(replace('.scss', '.css'))
+    .pipe(gulp.dest(paths.build))
+    .on('end', compileSass);
 }
 
+function compileSass() {
+    gulp.src(`${paths.build}/**/*.scss`)
+    .pipe(sass({
+        outputStyle: 'compressed',
+        importer: function (url, prev, done) {
+            if (url[0] === '~') {
+                url = path.resolve('node_modules', url.substr(1));
+            }
+            done({
+                file: url
+            });
+        }
+    }))
+    .pipe(gulp.dest(paths.build));
+}
 function copyResources() {
   gulp.src([
         `./LICENSE`,
