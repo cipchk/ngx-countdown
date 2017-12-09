@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { Component, OnInit, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { NotifyService } from 'ngx-notify';
-import { CountdownComponent } from 'ngx-countdown';
+import { CountdownComponent } from '../../../../src/index';
 
 @Component({
     selector: 'demo',
