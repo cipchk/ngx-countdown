@@ -8,7 +8,7 @@ import { HighlightJsModule } from 'ngx-highlight-js';
 import { NotifyModule } from 'ngx-notify';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
-import { CountdownModule } from 'ngx-countdown';
+import { CountdownModule } from '../../../src/index';
 
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './components/layout.component';
