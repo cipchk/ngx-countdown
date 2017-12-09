@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Config } from "ngx-countdown";
+import { Config } from '../../../../../src/index';
 
 @Component({
     selector: 'demo-tpl-flip',
@@ -8,14 +8,14 @@ import { Config } from "ngx-countdown";
     encapsulation: ViewEncapsulation.None
 })
 export class TplFlipComponent {
-    
+
     config: Config = {
         leftTime: 60 * 60 * 24 * 7,
         className: 'flip-cd',
         repaint: function() { // 这里不可以使用箭头函数，因为对于箭头函数this是强制性的，为了让重绘有更大的权限，必须是function
-            let me:any = this,
-                content: string;
-                
+            const me: any = this;
+            let content: string;
+
             me.hands.forEach((hand: any) => {
                 if (hand.lastValue !== hand.value) {
                     content = '';

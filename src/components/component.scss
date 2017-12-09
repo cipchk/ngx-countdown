@@ -1,22 +1,22 @@
 .count-down {
     display: none;
-    color: #808080;
-    font-size: 12px;
-    font-family: arial;
-    span {
-        text-decoration: none;
-    }
-    .clock {
-        font-weight: bold;
-    }
-    .hand {
-        margin: 0 3px;
-    }
-    .digital {
-        color: #f60;
-        font-size: 14px;
-        font-weight: normal;
-    }
+    // color: #808080;
+    // font-size: 12px;
+    // font-family: arial;
+    // span {
+    //     text-decoration: none;
+    // }
+    // .clock {
+    //     font-weight: bold;
+    // }
+    // .hand {
+    //     margin: 0 3px;
+    // }
+    // .digital {
+    //     color: #f60;
+    //     font-size: 14px;
+    //     font-weight: normal;
+    // }
     &.lite {}
     &.medium {
         .digital {

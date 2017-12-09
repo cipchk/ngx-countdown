@@ -4,6 +4,12 @@ Simple, easy and performance countdown for angular
 [![NPM version](https://img.shields.io/npm/v/ngx-countdown.svg)](https://www.npmjs.com/package/ngx-countdown)
 [![Build Status](https://travis-ci.org/cipchk/ngx-countdown.svg?branch=master)](https://travis-ci.org/cipchk/ngx-countdown)
 
+Version:
+| Angular Version | ngx-countdown |
+| --------------- | ------------- |
+| Angular5 | [![NPM version](https://img.shields.io/npm/v/ngx-countdown.svg)](https://www.npmjs.com/package/ngx-countdown) |
+| Angular4 | `1.0.6` |
+
 ## Demo
 
 [Live Demo](https://cipchk.github.io/ngx-countdown/)
@@ -32,7 +38,7 @@ export class AppModule { }
 ### 2、Template
 
 ```html
-<countdown [config]="config" 
+<countdown [config]="config"
     (start)="onStart()"
     (finished)="onFinished()"
     (notify)="onNotify($event)"></countdown>
