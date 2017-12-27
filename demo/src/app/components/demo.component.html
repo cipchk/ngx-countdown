@@ -4,10 +4,10 @@
             <div class="card-header">基础效果</div>
             <div class="card-body">
                 <div class="mb-3">
-                    <countdown [config]="{leftTime: 1000 * 10}"></countdown>
+                    <countdown [config]="{leftTime: 30}"></countdown>
                 </div>
                 <textarea highlight-js>
-                    &lt;countdown [config]="{leftTime: 1000 * 10}"></countdown>
+                    &lt;countdown [config]="{leftTime: 30}"></countdown>
                 </textarea>
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div class="card-body">
                 <div class="mb-3">
                     <p class="card-text">在第2、5秒时通知</p>
-                    <countdown #countdown [config]="config" 
+                    <countdown #countdown [config]="config"
                         (start)="onStart()"
                         (finished)="onFinished()"
                         (notify)="onNotify($event)"></countdown>
@@ -89,6 +89,33 @@
                 </div>
                 <textarea highlight-js>
                     &lt;countdown [config]="{leftTime: 359999.9, clock: ['d', 100, 2, 'h', 100, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1] }"></countdown>
+                </textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4 mb-3">
+        <div class="card text-center">
+            <div class="card-header">基础效果</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <countdown #cd1 (event)="onEvent($event)" [config]="{leftTime: 30}"></countdown>
+                    <div>
+                        <button (click)="cd1.pause()" class="btn btn-link btn-sm">pause</button>
+                        <button (click)="cd1.resume()" class="btn btn-link btn-sm">resume</button>
+                        <button (click)="cd1.stop()" class="btn btn-link btn-sm">stop</button>
+                        <button (click)="cd1.restart()" class="btn btn-link btn-sm">restart</button>
+                    </div>
+                </div>
+                <textarea highlight-js>
+                    &lt;countdown [config]="{leftTime: 30}" #cd1 (event)="onEvent($event)"></countdown>
+                    <div>
+                        <button (click)="cd1.pause()" class="btn btn-link btn-sm">pause</button>
+                        <button (click)="cd1.resume()" class="btn btn-link btn-sm">resume</button>
+                        <button (click)="cd1.stop()" class="btn btn-link btn-sm">stop</button>
+                        <button (click)="cd1.restart()" class="btn btn-link btn-sm">restart</button>
+                    </div>
                 </textarea>
             </div>
         </div>

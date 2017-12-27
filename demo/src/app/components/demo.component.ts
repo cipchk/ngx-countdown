@@ -30,6 +30,9 @@ export class DemoComponent {
         this.stopConfig = { stopTime: new Date().getTime() + (1000 * 30) };
     }
 
+    onEvent(value: any) {
+        console.log('event', value);
+    }
 
     @ViewChild('countdown') counter: CountdownComponent;
     resetTimer(){

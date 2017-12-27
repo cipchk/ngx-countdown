@@ -6,19 +6,25 @@ import { Timer } from './timer';
 @Component({
     selector: 'countdown',
     template: `<ng-content></ng-content>`,
-    // tslint:disable-next-line:use-host-property-decorator
-    host: {
-        '[class]': 'cls'
-    },
     styleUrls: [ './component.scss' ],
     encapsulation: ViewEncapsulation.None
 })
 export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
+    private frequency = 1000;
+    private _notify: any = {};
+    private hands: Hand[] = [];
+    private left = 0;
+    private parsed = false;
+    private stoped = false;
+
     @Input() config: Config;
     @Output() start = new EventEmitter();
     @Output() finished = new EventEmitter();
     @Output() notify = new EventEmitter();
+    @Output() event = new EventEmitter<{ action: string, left: number }>();
+
+    @HostBinding('class')
     cls: string;
 
     constructor(private el: ElementRef,
@@ -29,6 +35,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnInit() {
         this.init();
+        this.callEvent('start');
     }
 
     ngOnDestroy(): void {
@@ -42,18 +49,40 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     restart(): void  {
-        this.destroy().init();
+        if (!this.stoped) this.destroy();
+        this.init();
         this.timer.start();
+        this.callEvent('restart');
     }
 
-    private frequency = 1000;
-    private _notify: any = {};
-    private hands: Hand[] = [];
-    private left = 0;
+    stop() {
+        if (this.stoped) return;
+        this.stoped = true;
+        this.destroy();
+        this.callEvent('stop');
+    }
+
+    pause() {
+        if (this.stoped || this.parsed) return ;
+        this.parsed = true;
+        this.callEvent('pause');
+    }
+
+    resume() {
+        if (this.stoped || !this.parsed) return ;
+        this.parsed = false;
+        this.callEvent('resume');
+    }
+
+    private callEvent(action: string) {
+        this.event.emit({ action, left: this.left });
+    }
 
     private init() {
         const me = this;
         const el = me.el.nativeElement;
+        me.parsed = false;
+        me.stoped = false;
 
         me.config = Object.assign(<Config>{
             leftTime: 0,
@@ -145,6 +174,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
      * 更新时钟
      */
     private reflow(count: number = 0): void {
+        if (this.parsed || this.stoped) return ;
         const me = this;
         me.left = me.left - me.frequency * count;
 
@@ -157,10 +187,13 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
         if (me._notify[me.left]) {
             me.notify.emit(me.left);
+            this.callEvent('notify');
         }
 
         if (me.left < 1) {
             me.finished.emit(0);
+            this.stoped = true;
+            this.callEvent('finished');
             this.destroy();
         }
     }

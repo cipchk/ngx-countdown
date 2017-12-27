@@ -47,18 +47,25 @@ export class AppModule { }
 
 | Name    | Type           | Default  | Summary |
 | ------- | ------------- | ----- | ----- |
-| config | Config |  | 配置信息，见Config |
-| start | Function |  | 开始时触发 |
-| finished | onFinished |  |结束时触发 |
-| notify | Function(time: number) |  | 通知时触发，需要在 Config 中配置 notify |
+| `config` | Config | - | see Config |
+| `restart()` | - | - | - |
+| `stop()` | - | - | - |
+| `pause()` | - | - | - |
+| `resume()` | - | - | - |
+| `start` | `EventEmitter` | - | Triggers when start |
+| `finished` | `EventEmitter` | - | Triggers when finished |
+| `notify` | `EventEmitter(time: number)` | - | Triggers when notify, need setting `config.notify` values |
+| `event` | `EventEmitter<{ action: string, left: number }>` | - | Catch all event |
 
-**如何重置计数器**
+**How call component methods**
 
 ```typescript
 @ViewChild(CountdownComponent) counter: CountdownComponent;
 resetTimer(){
-    //this.counter.config.leftTime = 5;
     this.counter.restart();
+    this.counter.stop();
+    this.counter.pause();
+    this.counter.resume();
 }
 ```
 
