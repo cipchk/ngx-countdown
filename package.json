@@ -1,6 +1,6 @@
 {
   "name": "ngx-countdown",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "main": "./bundles/ngx-countdown.umd.js",
   "typings": "index.d.ts",
   "description": "Simple, easy and performance countdown for angular",
