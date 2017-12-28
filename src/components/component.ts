@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewEncapsulation, Input, Renderer, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, HostBinding, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, Input, Renderer, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, HostBinding, OnInit, SimpleChange } from '@angular/core';
 import { Config } from './interfaces/config';
 import { Hand } from './interfaces/hand';
 import { Timer } from './timer';
@@ -34,18 +34,25 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit() {
+        this.mergeConfig();
         this.init();
-        this.callEvent('start');
+        if (!this.config.demand) this.begin();
     }
 
     ngOnDestroy(): void {
         this.destroy();
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    ngOnChanges(changes: { [P in keyof this]?: SimpleChange } & SimpleChanges): void {
         if (!changes.config.firstChange) {
+            this.mergeConfig();
             this.destroy().init();
         }
+    }
+
+    begin() {
+        this.parsed = false;
+        this.callEvent('start');
     }
 
     restart(): void  {
@@ -74,6 +81,18 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
         this.callEvent('resume');
     }
 
+    private mergeConfig() {
+        this.config = Object.assign(<Config>{
+            demand: false,
+            leftTime: 0,
+            template: '$!h!时$!m!分$!s!秒',
+            size: 'lite',
+            effect: 'normal',
+            varRegular: /\$\!([\-\w]+)\!/g,
+            clock: ['d', 100, 2, 'h', 24, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1]
+        }, this.config);
+    }
+
     private callEvent(action: string) {
         this.event.emit({ action, left: this.left });
     }
@@ -81,17 +100,8 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     private init() {
         const me = this;
         const el = me.el.nativeElement;
-        me.parsed = false;
+        me.parsed = me.config.demand;
         me.stoped = false;
-
-        me.config = Object.assign(<Config>{
-            leftTime: 0,
-            template: '$!h!时$!m!分$!s!秒',
-            size: 'lite',
-            effect: 'normal',
-            varRegular: /\$\!([\-\w]+)\!/g,
-            clock: ['d', 100, 2, 'h', 24, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1]
-        }, me.config);
 
         this.cls = `count-down ${me.config.size} ${me.config.className || ''}`;
 
@@ -139,7 +149,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         me.getLeft();
-        me.reflow();
+        me.reflow(0, true);
 
         // bind reflow to me
         const _reflow = me.reflow;
@@ -173,8 +183,8 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     /**
      * 更新时钟
      */
-    private reflow(count: number = 0): void {
-        if (this.parsed || this.stoped) return ;
+    private reflow(count: number = 0, force: boolean = false): void {
+        if (!force && (this.parsed || this.stoped)) return ;
         const me = this;
         me.left = me.left - me.frequency * count;
 

@@ -48,6 +48,7 @@ export class AppModule { }
 | Name    | Type           | Default  | Summary |
 | ------- | ------------- | ----- | ----- |
 | `config` | Config | - | see Config |
+| `begin()` | - | - | Triggers when `{demand: false}` |
 | `restart()` | - | - | - |
 | `stop()` | - | - | - |
 | `pause()` | - | - | - |
@@ -75,6 +76,7 @@ resetTimer(){
 
 | Name    | Type           | Default  | Summary |
 | ------- | ------------- | ----- | ----- |
+| demand | boolean | `false` | 按需启动，需调用 `begin()` 开始启动  |
 | template | string | $!h!时$!m!分$!s!秒 | 自定义模板，如果为空以组件 innerHTML 为准，再不然使用默认值。`$!s!` 有另一种表示法 `$!s-ext!` 表示0.1s精度。  |
 | size | string | lite | lite、medium、large 三种不同风格，见DEMO |
 | leftTime | number | 0 | 剩余时间：指的是根据服务端计算剩余时间值进行倒计时，支持0.1s精度，但有可能会出现丢帧的情况。（单位：秒） |

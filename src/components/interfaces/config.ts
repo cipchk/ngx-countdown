@@ -8,6 +8,11 @@ export interface Config {
     template?: string;
 
     /**
+     * 按需启动，需调用 `begin()` 开始启动，默认：`false`
+     */
+    demand?: boolean;
+
+    /**
      * 尺寸
      *
      * @type {('lite' | 'medium' | 'large')}

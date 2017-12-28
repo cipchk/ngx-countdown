@@ -97,7 +97,23 @@
 <div class="row">
     <div class="col-sm-4 mb-3">
         <div class="card text-center">
-            <div class="card-header">基础效果</div>
+            <div class="card-header">非立即开始</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <countdown #cd2 [config]="{leftTime: 30, demand: true}"></countdown>
+                    <div>
+                        <button (click)="cd2.begin()" class="btn btn-link btn-sm">begin</button>
+                    </div>
+                </div>
+                <textarea highlight-js>
+                    &lt;countdown [config]="{leftTime: 30, demand: true}"></countdown>
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 mb-3">
+        <div class="card text-center">
+            <div class="card-header">动作</div>
             <div class="card-body">
                 <div class="mb-3">
                     <countdown #cd1 (event)="onEvent($event)" [config]="{leftTime: 30}"></countdown>
