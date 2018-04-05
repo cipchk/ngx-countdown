@@ -6,3 +6,4 @@ coverage
 __gen_lib
 publish
 publish-es2015
+dist

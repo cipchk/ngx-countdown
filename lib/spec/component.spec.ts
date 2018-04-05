@@ -1,3 +1,4 @@
+// tslint:disable:no-use-before-declare
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';

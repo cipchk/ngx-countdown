@@ -1,6 +1,6 @@
 {
   "name": "ngx-countdown",
-  "version": "2.1.0-beta.1",
+  "version": "2.1.0",
   "main": "./bundles/countdown.umd.js",
   "module": "./esm5/countdown.js",
   "es2015": "./esm2015/countdown.js",
