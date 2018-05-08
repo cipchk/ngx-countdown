@@ -19,16 +19,7 @@ let globals = {
   '@angular/common/testing'             : 'ng.common.testing',
   '@angular/common/http/testing'        : 'ng.common.http.testing',
 
-  'rxjs/BehaviorSubject': 'Rx',
-  'rxjs/Observable': 'Rx',
-  'rxjs/Subject': 'Rx',
-  'rxjs/Subscription': 'Rx',
-  'rxjs/operators': 'Rx.Observable.prototype',
-  'rxjs/observable/of': 'Rx.Observable',
-  'rxjs/observable/zip': 'Rx.Observable',
-  'rxjs/observable/fromEvent': 'Rx.Observable',
-  'rxjs/observable/FromEventObservable': 'Rx.Observable',
-  'rxjs/observable/combineLatest': 'Rx.Observable',
+  "rxjs": "rxjs",
 };
 
 let plugins = [

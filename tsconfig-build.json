@@ -13,7 +13,7 @@
       ]
     },
     "files": [
-      "./__gen_lib/ngx-countdown.module.ts"
+      "./__gen_lib/public_api.ts"
     ],
     "angularCompilerOptions": {
       "annotateForClosureCompiler": true,

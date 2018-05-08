@@ -8,7 +8,7 @@
         "types": [],
         "paths": {
             "ngx-countdown": [
-                "../lib/ngx-countdown.module"
+                "../lib/index"
             ],
             "ngx-countdown/*": [
                 "../lib/*"

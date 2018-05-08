@@ -12,7 +12,7 @@
       "lib": ["es2015", "dom"]
     },
     "files": [
-      "./ngx-countdown.module.ts"
+      "./index.ts"
     ],
     "angularCompilerOptions": {
       "skipTemplateCodegen": true

@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HighlightJsModule } from 'ngx-highlight-js';
 import { NotifyModule } from 'ngx-notify';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+// import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { CountdownModule } from 'ngx-countdown';
 
@@ -25,7 +25,7 @@ import { TplFlipComponent } from './tpl/flip/flip.component';
         HttpModule,
         CommonModule,
         HighlightJsModule,
-        TabsModule.forRoot(),
+        // TabsModule.forRoot(),
         NotifyModule.forRoot({
             notify: {
                 theme: 'bootstrap',
