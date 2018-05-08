@@ -47,3 +47,4 @@ rm publish/src/index.d.ts publish/src/index.metadata.json
 
 echo 'Copying package.json'
 cp package.json publish/package.json
+cp README.md publish/README.md
