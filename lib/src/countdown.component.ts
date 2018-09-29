@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   Input,
-  Renderer,
   OnChanges,
   SimpleChanges,
   OnDestroy,
@@ -18,7 +17,13 @@ import { Timer } from './countdown.timer';
 @Component({
   selector: 'countdown',
   template: `<ng-content></ng-content>`,
-  styles: [`:host { display: none; }`],
+  styles: [
+    `
+      :host {
+        display: none;
+      }
+    `,
+  ],
   host: { '[class.count-down]': 'true' },
 })
 export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
@@ -30,19 +35,18 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   /** 两种情况会触发：时间终止或调用 `stop()` */
   private stoped = false;
 
-  @Input() config: Config;
-  @Output() start = new EventEmitter();
-  @Output() finished = new EventEmitter();
-  @Output() notify = new EventEmitter();
-  @Output() event = new EventEmitter<{ action: string; left: number }>();
+  @Input()
+  config: Config;
+  @Output()
+  start = new EventEmitter();
+  @Output()
+  finished = new EventEmitter();
+  @Output()
+  notify = new EventEmitter();
+  @Output()
+  event = new EventEmitter<{ action: string; left: number }>();
 
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer,
-    private timer: Timer,
-  ) {
-    this.timer.start();
-  }
+  constructor(private el: ElementRef, private timer: Timer) {}
 
   /** 开始，当 `demand: false` 时触发 */
   begin() {
@@ -55,7 +59,6 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   restart(): void {
     if (!this.stoped) this.destroy();
     this.init();
-    this.timer.start();
     this.callEvent('restart');
   }
 
@@ -81,8 +84,13 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     this.callEvent('resume');
   }
 
-  private mergeConfig() {
-    this.config = Object.assign(
+  private callEvent(action: string) {
+    this.event.emit({ action, left: this.left });
+  }
+
+  private init() {
+    const me = this;
+    me.config = Object.assign(
       <Config>{
         demand: false,
         leftTime: 0,
@@ -91,16 +99,8 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
         varRegular: /\$\!([\-\w]+)\!/g,
         clock: ['d', 100, 2, 'h', 24, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1],
       },
-      this.config,
+      me.config,
     );
-  }
-
-  private callEvent(action: string) {
-    this.event.emit({ action, left: this.left });
-  }
-
-  private init() {
-    const me = this;
     const el = me.el.nativeElement;
     me.paused = me.config.demand;
     me.stoped = false;
@@ -166,7 +166,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
         if (time < 1)
           throw new Error(`the notify config must be a positive integer.`);
         time = time * 1000;
-        time = time - time % me.frequency;
+        time = time - (time % me.frequency);
         me._notify[time] = true;
       });
     }
@@ -174,6 +174,8 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     me.timer.add(me.reflow, me.frequency);
     // show
     el.style.display = 'inline';
+
+    this.timer.start();
 
     return me;
   }
@@ -187,8 +189,8 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
    * 更新时钟
    */
   private reflow(count: number = 0, force: boolean = false): void {
-    if (!force && (this.paused || this.stoped)) return;
     const me = this;
+    if (!force && (me.paused || me.stoped)) return;
     me.left = me.left - me.frequency * count;
 
     me.hands.forEach((hand: Hand) => {
@@ -200,14 +202,14 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
     if (me._notify[me.left]) {
       me.notify.emit(me.left);
-      this.callEvent('notify');
+      me.callEvent('notify');
     }
 
     if (me.left < 1) {
       me.finished.emit(0);
-      this.stoped = true;
-      this.callEvent('finished');
-      this.destroy();
+      me.stoped = true;
+      me.callEvent('finished');
+      me.destroy();
     }
   }
 
@@ -240,12 +242,13 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
    * 获取倒计时剩余帧数
    */
   private getLeft(): void {
-    let left: number = this.config.leftTime * 1000;
-    const end: number = this.config.stopTime;
+    const me = this;
+    let left: number = me.config.leftTime * 1000;
+    const end: number = me.config.stopTime;
 
     if (!left && end) left = end - new Date().getTime();
 
-    this.left = left - left % this.frequency;
+    me.left = left - (left % me.frequency);
   }
 
   /**
@@ -283,7 +286,6 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    this.mergeConfig();
     this.init();
     if (!this.config.demand) this.begin();
   }
@@ -296,8 +298,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     changes: { [P in keyof this]?: SimpleChange } & SimpleChanges,
   ): void {
     if (!changes.config.firstChange) {
-      this.mergeConfig();
-      this.destroy().init();
+      this.restart();
     }
   }
 }

@@ -5,6 +5,7 @@ import {
   TestBed,
   fakeAsync,
   tick,
+  discardPeriodicTasks,
 } from '@angular/core/testing';
 
 import { CountdownModule } from '../src/countdown.module';
@@ -66,15 +67,14 @@ describe('Component: ngx-countdown', () => {
       context.comp.begin();
       expect(context.start).toHaveBeenCalled();
     });
-    it('should be re-init when reassigning config value', fakeAsync(() => {
+    it('should be re-init when reassigning config value', () => {
       context.config = { leftTime: 2 };
       fixture.detectChanges();
       expect(getSecond()).toBe(2);
-      tick(1000);
       context.config = { leftTime: 3 };
       fixture.detectChanges();
       expect(getSecond()).toBe(3);
-    }));
+    });
     it('should be custom render template', (done: () => void) => {
       context.config = { leftTime: 2, template: '$!s-ext!s' };
       fixture.detectChanges();

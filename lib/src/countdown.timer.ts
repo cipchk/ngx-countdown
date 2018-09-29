@@ -47,17 +47,16 @@ export class Timer {
       }
     }
 
-    if (this.ing)
-      setTimeout(() => {
-        this.process();
-      }, diff);
+    if (this.ing) {
+      setTimeout(() => this.process(), diff);
+    }
   }
 
   add(fn: Function, frequency: number) {
     this.commands.push(() => {
       this.fns.push(fn);
       this.fns.push(frequency === 1000 ? 1 : 0);
-      this.ing = this.fns.length > 0;
+      this.ing = true;
     });
   }
 
