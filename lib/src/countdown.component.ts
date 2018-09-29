@@ -11,9 +11,9 @@ import {
   OnInit,
   SimpleChange,
 } from '@angular/core';
-import { Config } from './interfaces/config';
-import { Hand } from './interfaces/hand';
-import { Timer } from './timer';
+
+import { Config, Hand } from './interfaces';
+import { Timer } from './countdown.timer';
 
 @Component({
   selector: 'countdown',

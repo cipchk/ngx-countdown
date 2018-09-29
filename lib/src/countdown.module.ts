@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { CountdownComponent } from './components/component';
-import { Timer } from './components/timer';
+import { CountdownComponent } from './countdown.component';
+import { Timer } from './countdown.timer';
 
 @NgModule({
     imports:        [CommonModule],

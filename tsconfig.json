@@ -1,28 +1,19 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "outDir": "./dist/out-tsc",
-        "sourceMap": true,
-        "declaration": false,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "target": "es5",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "lib": [
-            "es2017",
-            "dom"
-        ],
-        "baseUrl": "./",
-        "paths": {
-            "ngx-countdown": [
-                "./lib/index"
-            ],
-            "ngx-countdown/*": [
-                "./lib/*"
-            ]
-        }
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "baseUrl": "./",
+    "paths": {
+      "ngx-countdown": ["./lib/src/countdown.module"],
+      "ngx-countdown/*": ["./lib/*"]
     }
+  }
 }
