@@ -9,6 +9,7 @@ import {
   EventEmitter,
   OnInit,
   SimpleChange,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { Config, Hand } from './interfaces';
@@ -25,6 +26,7 @@ import { Timer } from './countdown.timer';
     `,
   ],
   host: { '[class.count-down]': 'true' },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   private frequency = 1000;
@@ -101,7 +103,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
       },
       me.config,
     );
-    const el = me.el.nativeElement;
+    const el = me.el.nativeElement as HTMLElement;
     me.paused = me.config.demand;
     me.stoped = false;
 
