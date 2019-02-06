@@ -79,6 +79,22 @@ resetTimer(){
 | notify | number[] |  | 第xx秒时调用 notify 函数，值必须是**正整数** |
 | repaint | Function |  | Custom repaintes |
 
+**Global Config**
+
+```ts
+function countdownConfigFactory(): Config {
+  return { template: `$!h!:$!m!:$!s!` };
+}
+
+@NgModule({
+  imports: [ CountdownModule ],
+  providers: [
+    { provide: CountdownConfig, useFactory: countdownConfigFactory }
+  ],
+})
+export class AppDemoModule {}
+```
+
 ## About repaints
 
 The timer will call repaint function every time, if it's `0.1s` accuracy, it will be more frequent. so you can make same special effects, like [Flip](https://cipchk.github.io/ngx-countdown/#/tpl/flip).

@@ -10,23 +10,29 @@ import {
   OnInit,
   SimpleChange,
   ChangeDetectionStrategy,
+  ViewEncapsulation,
+  Inject,
 } from '@angular/core';
 
 import { Config, Hand } from './interfaces';
 import { Timer } from './countdown.timer';
+import { CountdownConfig } from './countdown.config';
 
 @Component({
   selector: 'countdown',
-  template: `<ng-content></ng-content>`,
+  template: `
+    <ng-content></ng-content>
+  `,
   styles: [
     `
-      :host {
+      countdown {
         display: none;
       }
     `,
   ],
   host: { '[class.count-down]': 'true' },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   private frequency = 1000;
@@ -40,15 +46,19 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   config: Config;
   @Output()
-  start = new EventEmitter();
+  readonly start = new EventEmitter();
   @Output()
-  finished = new EventEmitter();
+  readonly finished = new EventEmitter();
   @Output()
-  notify = new EventEmitter();
+  readonly notify = new EventEmitter();
   @Output()
-  event = new EventEmitter<{ action: string; left: number }>();
+  readonly event = new EventEmitter<{ action: string; left: number }>();
 
-  constructor(private el: ElementRef, private timer: Timer) {}
+  constructor(
+    private el: ElementRef,
+    private timer: Timer,
+    private cog: CountdownConfig,
+  ) {}
 
   /** 开始，当 `demand: false` 时触发 */
   begin() {
@@ -92,17 +102,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
   private init() {
     const me = this;
-    me.config = Object.assign(
-      <Config>{
-        demand: false,
-        leftTime: 0,
-        template: '$!h!时$!m!分$!s!秒',
-        effect: 'normal',
-        varRegular: /\$\!([\-\w]+)\!/g,
-        clock: ['d', 100, 2, 'h', 24, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1],
-      },
-      me.config,
-    );
+    me.config = { ...new CountdownConfig(), ...me.cog, ...me.config };
     const el = me.el.nativeElement as HTMLElement;
     me.paused = me.config.demand;
     me.stoped = false;

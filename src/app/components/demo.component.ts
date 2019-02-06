@@ -6,7 +6,7 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { NotifyService } from 'ngx-notify';
+import { ToastrService } from 'ngx-toastr';
 import { CountdownComponent } from 'ngx-countdown';
 
 @Component({
@@ -16,7 +16,7 @@ import { CountdownComponent } from 'ngx-countdown';
   encapsulation: ViewEncapsulation.None,
 })
 export class DemoComponent {
-  constructor(private _ns: NotifyService) {}
+  constructor(private ts: ToastrService) {}
 
   notify: string;
   config: any = { leftTime: 10, notify: [2, 5] };
