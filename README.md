@@ -4,7 +4,6 @@ Simple, easy and performance countdown for angular
 
 [![NPM version](https://img.shields.io/npm/v/ngx-countdown.svg)](https://www.npmjs.com/package/ngx-countdown)
 [![Build Status](https://travis-ci.org/cipchk/ngx-countdown.svg?branch=master)](https://travis-ci.org/cipchk/ngx-countdown)
-[![codecov](https://codecov.io/gh/cipchk/ngx-countdown/branch/master/graph/badge.svg)](https://codecov.io/gh/cipchk/ngx-countdown)
 
 ## Demo
 
@@ -25,9 +24,9 @@ import `CountdownModule`。
 import { CountdownModule } from 'ngx-countdown';
 
 @NgModule({
-    imports: [ BrowserModule, CountdownModule ],
-    declarations: [AppComponent],
-    bootstrap: [AppComponent]
+  imports: [ BrowserModule, CountdownModule ],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
 ```
@@ -35,69 +34,72 @@ export class AppModule { }
 ### 2、Template
 
 ```html
-<countdown [config]="config"
-    (start)="onStart()"
-    (finished)="onFinished()"
-    (notify)="onNotify($event)"></countdown>
+<countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
 ```
 
-| Name    | Type           | Default  | Summary |
-| ------- | ------------- | ----- | ----- |
-| `config` | Config | - | see Config |
-| `begin()` | - | - | Triggers when `{demand: false}` |
-| `restart()` | - | - | - |
-| `stop()` | - | - | - |
-| `pause()` | - | - | - |
-| `resume()` | - | - | - |
-| `start` | `EventEmitter` | - | Triggers when start |
-| `finished` | `EventEmitter` | - | Triggers when finished |
-| `notify` | `EventEmitter(time: number)` | - | Triggers when notify, need setting `config.notify` values |
-| `event` | `EventEmitter<{ action: string, left: number }>` | - | Catch all event |
+**Method**
+
+| Name        | Description                                                                                    |
+|-------------|------------------------------------------------------------------------------------------------|
+| `begin()`   | Start countdown, you must manually call when `demand: false`                                   |
+| `restart()` | Restart countdown                                                                              |
+| `stop()`    | Stop countdown, must call `restart` when stopped, it's different from pause, unable to recover |
+| `pause()`   | Pause countdown, you can use `resume` to recover again                                         |
+| `resume()`  | Resume countdown                                                                               |
 
 **How call component methods**
 
-```typescript
-@ViewChild(CountdownComponent) counter: CountdownComponent;
-resetTimer(){
-    this.counter.restart();
-    this.counter.stop();
-    this.counter.pause();
-    this.counter.resume();
-}
+```ts
+@ViewChild('cd', { static: false }) private countdown: CountdownComponent;
+this.countdown.begin();
 ```
 
-## Config
+## API
+
+### countdown
+
+| Name     | Type                           | Default | Summary |
+|----------|--------------------------------|---------|---------|
+| `config` | `CountdownConfig`              | -       | Config  |
+| `event`  | `EventEmitter<CountdownEvent>` | -       | Events  |
+
+### CountdownConfig
 
 | Name    | Type           | Default  | Summary |
 | ------- | ------------- | ----- | ----- |
-| demand | boolean | `false` | start the counter on demand, must call `begin()` to starting  |
-| template | string | `$!h!时$!m!分$!s!秒` | Custom render template, if is empty use the `<ng-content>` content, and `$!s-ext!` it's `0.1s` accuracy |
-| leftTime | number | 0 | Calculate the remaining time based on the server, e.g: `10`,`5.5`(May be dropped frames) (Unit: seconds) |
-| stopTime | number | 0 | 结束时间：指的是根据本地时间至结束时间进行倒计时。（单位：UNIX时间戳 ms） |
-| varRegular | RegExp | `/\$\{([\-\w]+)\}/g` | 模板解析正则表达式，有时候由于模板结构比较特殊，无法根据默认的表达式进行解析，那就需要修改它。 |
-| clock | Array |  | 时钟控制数组，特殊需求时可以修改，里面是三元组：指针名、进制、位数，可参考大于99小时demo |
-| notify | number[] |  | 第xx秒时调用 notify 函数，值必须是**正整数** |
-| repaint | Function |  | Custom repaintes |
+| demand | `boolean` | `false` | Start the counter on demand, must call `begin()` to starting  |
+| leftTime | `number` | `0` | Calculate the remaining time based on the server, e.g: `10`,`5.5`, (Unit: seconds) |
+| stopTime | `number` | - | Refers to counting down from local time to end time (Unit: Milliseconds second UNIX timestamp) |
+| format | `string` | `HH:mm:ss` | Formats a date value, pls refer to [Accepted patterns](https://angular.io/api/common/DatePipe#usage-notes) |
+| prettyText | `(text: string) => string` | - | Beautify text, generally used to convert formatted time text into HTML |
+| notify | `number[] | number` | - | Should be trigger type `notify` event on the x second. When values is `0` will be trigger every time |
+| formatDate | `CountdownFormatFn` | - | Default based on the implementation of `formatDate` in `@angular/common`, You can changed to other libs, e.g: [date-fns](https://date-fns.org/v2.0.1/docs/format) |
+| timezone | `string` | `+0000` | A timezone offset (such as '+0430'), or a standard UTC/GMT. When not supplied, uses the end-user's local system timezone |
+
+### CountdownEvent
+
+| Name     | Type                                          | Summary                          |
+|----------|-----------------------------------------------|----------------------------------|
+| `action` | `start,stop,restart,pause,resume,notify,done` | Action of the event              |
+| `status` | `CountdownStatus`                             | Status of the countdown          |
+| `left`   | `number`                                      | Number of remaining milliseconds |
+| `text`   | `string`                                      | Format the text                  |
 
 **Global Config**
 
 ```ts
-function countdownConfigFactory(): Config {
-  return { template: `$!h!:$!m!:$!s!` };
+function countdownConfigFactory(): CountdownGlobalConfig {
+  return { format: `mm:ss` };
 }
 
 @NgModule({
   imports: [ CountdownModule ],
   providers: [
-    { provide: CountdownConfig, useFactory: countdownConfigFactory }
+    { provide: CountdownGlobalConfig, useFactory: countdownConfigFactory }
   ],
 })
 export class AppDemoModule {}
 ```
-
-## About repaints
-
-The timer will call repaint function every time, if it's `0.1s` accuracy, it will be more frequent. so you can make same special effects, like [Flip](https://cipchk.github.io/ngx-countdown/#/tpl/flip).
 
 ## Troubleshooting
 

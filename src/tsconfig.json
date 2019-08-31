@@ -1,22 +1,17 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-        "sourceMap": false,
-        "outDir": "../out-tsc/app",
-        "baseUrl": "./",
-        "module": "es2015",
-        "types": [],
-        "paths": {
-            "ngx-countdown": [
-                "../lib/index"
-            ],
-            "ngx-countdown/*": [
-                "../lib/*"
-            ]
-        }
-    },
-    "exclude": [
-        "test.ts",
-        "**/*.spec.ts"
-    ]
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "files": [
+    "./main.ts",
+    "./polyfills.ts"
+  ],
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ]
 }

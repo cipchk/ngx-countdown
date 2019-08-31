@@ -1,13 +1,10 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  AfterViewInit,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { CountdownComponent } from 'ngx-countdown';
+// tslint:disable: member-ordering
+import { Component, ViewEncapsulation, ViewChild, Inject, LOCALE_ID } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
+import { format } from 'date-fns';
+
+const MINIUES = 1000 * 60;
 
 @Component({
   selector: 'demo',
@@ -16,31 +13,59 @@ import { CountdownComponent } from 'ngx-countdown';
   encapsulation: ViewEncapsulation.None,
 })
 export class DemoComponent {
-  constructor(private ts: ToastrService) {}
-
+  @ViewChild('countdown', { static: false }) private counter: CountdownComponent;
+  stopConfig: CountdownConfig = { stopTime: new Date().getTime() + 1000 * 30 };
   notify: string;
-  config: any = { leftTime: 10, notify: [2, 5] };
-  onStart() {
-    this.notify = '开始鸟';
-  }
-  onFinished() {
-    this.notify = '结束了！';
-  }
-  onNotify(time: number) {
-    this.notify = `在${time}ms时通知了一下`;
-  }
+  config: CountdownConfig = { leftTime: 10, notify: [2, 5] };
+  customFormat: CountdownConfig = {
+    leftTime: 65,
+    formatDate: ({ date, formatStr, timezone }) => {
+      let f = formatStr;
+      if (date > MINIUES) {
+        f = 'm分s秒';
+      } else if (date === MINIUES) {
+        f = 'm分';
+      } else {
+        f = 's秒';
+      }
+      return formatDate(date, f, this.locale, timezone || '+0000');
+    },
+  };
+  dateFnsConfig: CountdownConfig = {
+    leftTime: 60 * 60 * 24 * 365 * (2050 - 1970),
+    format: 'yyyy-MM-dd E HH:mm:ss a',
+    formatDate: ({ date, formatStr }) => format(date, formatStr),
+  };
+  prettyConfig: CountdownConfig = {
+    leftTime: 60,
+    format: 'HH:mm:ss',
+    prettyText: text => {
+      return text
+        .split(':')
+        .map(v => `<span class="item">${v}</span>`)
+        .join('');
+    },
+  };
 
-  stopConfig: any = { stopTime: new Date().getTime() + 1000 * 30 };
+  constructor(@Inject(LOCALE_ID) private locale: string) {}
+
   resetStop() {
     this.stopConfig = { stopTime: new Date().getTime() + 1000 * 30 };
   }
 
-  onEvent(value: any) {
-    console.log('event', value);
-  }
-
-  @ViewChild('countdown') counter: CountdownComponent;
   resetTimer() {
     this.counter.restart();
+  }
+
+  handleEvent(e: CountdownEvent) {
+    console.log(e);
+  }
+
+  handleEvent2(e: CountdownEvent) {
+    this.notify = e.action.toUpperCase();
+    if (e.action === 'notify') {
+      this.notify += ` - ${e.left} ms`;
+    }
+    console.log(e);
   }
 }

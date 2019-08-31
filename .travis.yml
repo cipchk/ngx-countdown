@@ -1,15 +1,6 @@
 sudo: required
+dist: trusty
 language: node_js
-node_js:
-  - '8.11'
-
-addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-      - google-chrome-beta
 
 git:
   depth: 1
@@ -20,9 +11,18 @@ cache:
     - ./node_modules
 
 before_install:
-  - export CHROME_BIN=chromium-browser
+  - set -e
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - sleep 3
+  - export NG_CLI_ANALYTICS=ci
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 
 env:
   - TASK=build

@@ -14,7 +14,7 @@
     ]
   },
   "files": [
-    "./index.ts"
+    "./src/public_api.ts"
   ],
   "angularCompilerOptions": {
     "skipTemplateCodegen": true
