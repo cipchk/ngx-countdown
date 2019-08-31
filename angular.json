@@ -18,8 +18,7 @@
             "polyfills": "src/polyfills.ts",
             "assets": ["src/assets"],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/bootstrap/dist/css/bootstrap.css"
             ],
             "scripts": []
           },
@@ -54,12 +53,6 @@
             }
           }
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "ngx-countdown:build"
-          }
-        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -76,27 +69,6 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["src/tsconfig.json"],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "ngx-countdown-e2e": {
-      "root": "",
-      "sourceRoot": "",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "protractor.conf.js",
-            "devServerTarget": "ngx-countdown:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [],
             "exclude": ["**/node_modules/**"]
           }
         }

@@ -4,4 +4,6 @@ import { Component } from '@angular/core';
   selector: 'demo-alot',
   templateUrl: './alot.component.html',
 })
-export class ALotComponent {}
+export class ALotComponent {
+  arr = new Array(1000).fill({});
+}

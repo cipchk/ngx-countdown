@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class Timer {
-  private fns: any[] = [];
-  private commands: Function[] = [];
+export class CountdownTimer {
+  private fns: Array<((count: number) => number | void) | number> = [];
+  private commands: Array<() => void> = [];
   private nextTime: number;
   private ing = false;
 
@@ -22,45 +22,45 @@ export class Timer {
     let diff = +new Date() - this.nextTime;
     const count = 1 + Math.floor(diff / 100);
 
-    diff = 100 - diff % 100;
+    diff = 100 - (diff % 100);
     this.nextTime += 100 * count;
 
-    let frequency: number, step: number, i: number, len: number;
-    for (i = 0, len = this.fns.length; i < len; i += 2) {
-      frequency = this.fns[i + 1];
+    for (let i = 0, len = this.fns.length; i < len; i += 2) {
+      let frequency = this.fns[i + 1] as number;
 
       // 100/s
       if (0 === frequency) {
-        this.fns[i](count);
+        (this.fns[i] as (count: number) => void)(count);
         // 1000/s
       } else {
         // 先把末位至0，再每次加2
         frequency += 2 * count - 1;
 
-        step = Math.floor(frequency / 20);
+        const step = Math.floor(frequency / 20);
         if (step > 0) {
-          this.fns[i](step);
+          (this.fns[i] as (count: number) => void)(step);
         }
 
         // 把末位还原成1
-        this.fns[i + 1] = frequency % 20 + 1;
+        this.fns[i + 1] = (frequency % 20) + 1;
       }
     }
 
-    if (this.ing) {
-      setTimeout(() => this.process(), diff);
-    }
+    if (!this.ing) return;
+
+    setTimeout(() => this.process(), diff);
   }
 
-  add(fn: Function, frequency: number) {
+  add(fn: () => void, frequency: number): this {
     this.commands.push(() => {
       this.fns.push(fn);
       this.fns.push(frequency === 1000 ? 1 : 0);
       this.ing = true;
     });
+    return this;
   }
 
-  remove(fn: Function) {
+  remove(fn: () => void): this {
     this.commands.push(() => {
       const i = this.fns.indexOf(fn);
       if (i !== -1) {
@@ -68,5 +68,6 @@ export class Timer {
       }
       this.ing = this.fns.length > 0;
     });
+    return this;
   }
 }

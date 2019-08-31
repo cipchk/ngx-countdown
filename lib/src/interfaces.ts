@@ -1,11 +1,21 @@
-export interface Config {
-  /**
-   * Custom render template, if is empty use the `<ng-content>` content, and `$!s-ext!` it's `0.1s` accuracy, Default: `$!h!时$!m!分$!s!秒`
-   */
-  template?: string;
+export type CountdownFormatFn = (opt: CountdownFormatFnOption) => string;
 
+export interface CountdownFormatFnOption {
+  date: number;
+  formatStr: string;
+  timezone?: string;
+}
+
+export enum CountdownStatus {
+  ing,
+  pause,
+  stop,
+  done,
+}
+
+export interface CountdownConfig {
   /**
-   * start the counter on demand, must call `begin()` to starting, Default: `false`
+   * Start the counter on demand, must call `begin()` to starting, Default: `false`
    */
   demand?: boolean;
 
@@ -15,39 +25,48 @@ export interface Config {
   leftTime?: number;
 
   /**
-   * 结束时间，单位：UNIX时间戳 ms
-   * 指的是根据本地时间至结束时间进行倒计时
+   * Refers to counting down from local time to end time (Unit: Milliseconds second UNIX timestamp)
    */
   stopTime?: number;
 
   /**
-   * 模板解析正则表达式，默认：`/\$\{([\-\w]+)\}/g`
-   * 有时候由于模板结构比较特殊，无法根据默认的表达式进行解析，那就需要修改它
+   * Formats a date value, pls refer to [Accepted patterns](https://angular.io/api/common/DatePipe#usage-notes), Default: `HH:mm:ss`
    */
-  varRegular?: RegExp;
+  format?: string;
 
   /**
-   * 时钟控制数组，特殊需求时可以修改，里面是三元组：指针名、进制、位数，可参考大于99小时demo，默认：`['d', 100, 2, 'h', 24, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1]`
+   * Beautify text, generally used to convert formatted time text into HTML
    */
-  clock?: any[];
+  prettyText?: (text: string) => string;
 
   /**
-   * 第x秒时调用 notify 函数，值必须是正整数
+   * Should be trigger type `notify` event on the x second. When values is `0` will be trigger every time.
    */
-  notify?: number[];
+  notify?: number[] | number;
 
   /**
-   * 重绘
+   * Default based on the implementation of `formatDate` in `@angular/common`
+   *
+   * You can changed to other libs, e.g: [date-fns](https://date-fns.org/v2.0.1/docs/format)
    */
-  repaint?: Function;
+  formatDate?: CountdownFormatFn;
+
+  /**
+   * A timezone offset (such as '+0430'), or a standard UTC/GMT. When not supplied, uses the end-user's local system timezone, Default: `+0000`
+   */
+  timezone?: string;
 }
 
-export interface Hand {
-  type?: string;
+export type CountdownEventAction = 'start' | 'stop' | 'restart' | 'pause' | 'resume' | 'notify' | 'done';
+
+export interface CountdownEvent {
+  action: CountdownEventAction;
+  status: CountdownStatus;
+  left: number;
+  text: string;
+}
+
+export interface CountdownItem {
+  text?: string;
   value?: number;
-  lastValue?: number;
-  base?: number;
-  radix?: number;
-  bits?: number;
-  node?: any;
 }

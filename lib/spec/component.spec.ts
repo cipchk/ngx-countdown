@@ -1,21 +1,16 @@
 // tslint:disable:no-use-before-declare
 import { Component, ViewChild, DebugElement } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-  discardPeriodicTasks,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { CountdownModule } from '../src/countdown.module';
-import { Config } from '../src/interfaces';
+import { CountdownConfig, CountdownEvent, CountdownStatus } from '../src/interfaces';
 import { CountdownComponent } from '../src/countdown.component';
 
 describe('Component: ngx-countdown', () => {
   let fixture: ComponentFixture<TestNGComponent>;
   let context: TestNGComponent;
   let dl: DebugElement;
+  let spy: jasmine.Spy<(_e: CountdownEvent) => void>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,35 +20,25 @@ describe('Component: ngx-countdown', () => {
     fixture = TestBed.createComponent(TestNGComponent);
     context = fixture.componentInstance;
     dl = fixture.debugElement;
-    spyOn(context, 'start');
-    spyOn(context, 'finished');
-    spyOn(context, 'notify');
-    spyOn(context, 'event');
+    spy = spyOn(context, 'handleEvent');
   });
 
-  afterEach(() => context.comp.ngOnDestroy());
+  afterEach(() => {
+    if (context.comp) context.comp.ngOnDestroy();
+  });
 
   function getSecond(): number {
-    const els = (dl.nativeElement as HTMLElement).querySelectorAll(
-      '.hand-s span',
-    );
-    return +els[1].textContent;
+    return context.comp.i.value / 1000;
   }
 
   describe('[default]', () => {
-    it('fixture should not be null', () => {
-      fixture.detectChanges();
-      expect(fixture).not.toBeNull();
-    });
-    it('should notify in 1s', (done: () => void) => {
+    it('should notify in 1s', fakeAsync(() => {
       context.config = { leftTime: 2, notify: [1] };
       fixture.detectChanges();
-      expect(context.notify).not.toHaveBeenCalled();
-      setTimeout(() => {
-        expect(context.notify).toHaveBeenCalled();
-        done();
-      }, 1001);
-    });
+      tick(1001);
+      expect(spy.calls.mostRecent().args[0].action).toBe('notify');
+      tick(1000);
+    }));
     it('should be throw error when notify is not positive integer', () => {
       expect(() => {
         context.config = { leftTime: 2, notify: [0.1] };
@@ -63,9 +48,9 @@ describe('Component: ngx-countdown', () => {
     it('should be demand start', () => {
       context.config = { demand: true, leftTime: 1 };
       fixture.detectChanges();
-      expect(context.start).not.toHaveBeenCalled();
+      expect(context.handleEvent).not.toHaveBeenCalled();
       context.comp.begin();
-      expect(context.start).toHaveBeenCalled();
+      expect(spy.calls.first().args[0].status).toBe(CountdownStatus.ing);
     });
     it('should be re-init when reassigning config value', () => {
       context.config = { leftTime: 2 };
@@ -75,205 +60,155 @@ describe('Component: ngx-countdown', () => {
       fixture.detectChanges();
       expect(getSecond()).toBe(3);
     });
-    it('should be custom render template', (done: () => void) => {
-      context.config = { leftTime: 2, template: '$!s-ext!s' };
+    it('should be custom format', fakeAsync(() => {
+      context.config = { leftTime: 2, format: 'm' };
       fixture.detectChanges();
-      setTimeout(() => {
-        expect(getSecond()).toBe(1);
-        done();
-      }, 250);
-    });
-    it('should be custom repaint function', (done: () => void) => {
-      let callCount = 0;
-      context.config = {
-        leftTime: 2,
-        repaint: function() {
-          ++callCount;
-        },
-      };
+      tick(250);
       fixture.detectChanges();
-      setTimeout(() => {
-        expect(callCount).toBeGreaterThan(0);
-        done();
-      }, 250);
-    });
+      expect(context.comp.i.text).toBe(`0`);
+      tick(2000);
+    }));
   });
 
   describe('[actions]', () => {
     it('#begin', () => {
       context.config = { demand: true, leftTime: 1 };
       fixture.detectChanges();
-      expect(context.start).not.toHaveBeenCalled();
+      expect(context.handleEvent).not.toHaveBeenCalled();
       context.comp.begin();
-      expect(context.start).toHaveBeenCalled();
+      expect(spy.calls.first().args[0].status).toBe(CountdownStatus.ing);
     });
     describe('#restart', () => {
-      it('normal', (done: () => void) => {
+      it('normal', fakeAsync(() => {
         context.config = { leftTime: 2 };
         fixture.detectChanges();
         expect(getSecond()).toBe(2);
-        setTimeout(() => {
-          expect(getSecond()).toBe(1);
-          context.comp.restart();
-          fixture.detectChanges();
-          expect(getSecond()).toBe(2);
-          done();
-        }, 1001);
-      });
-      it('when stoped', (done: () => void) => {
+        tick(1001);
+        expect(getSecond()).toBe(1);
+        context.comp.restart();
+        fixture.detectChanges();
+        expect(getSecond()).toBe(2);
+        tick(3000);
+      }));
+      it('when stoped', fakeAsync(() => {
         context.config = { leftTime: 2 };
         fixture.detectChanges();
         expect(getSecond()).toBe(2);
         context.comp.stop();
         fixture.detectChanges();
-        setTimeout(() => {
-          expect(getSecond()).toBe(2);
-          context.comp.restart();
-          fixture.detectChanges();
-          expect(getSecond()).toBe(2);
-          done();
-        }, 1001);
-      });
+        tick(1001);
+        expect(getSecond()).toBe(2);
+        context.comp.restart();
+        fixture.detectChanges();
+        expect(getSecond()).toBe(2);
+        tick(3000);
+      }));
     });
     describe('#stop', () => {
-      it('normal', (done: () => void) => {
+      it('normal', fakeAsync(() => {
         context.config = { leftTime: 2 };
         fixture.detectChanges();
         expect(getSecond()).toBe(2);
-        setTimeout(() => {
-          expect(getSecond()).toBe(1);
-          context.comp.stop();
-          fixture.detectChanges();
-          setTimeout(() => {
-            expect(getSecond()).toBe(1);
-            done();
-          }, 1001);
-        }, 1001);
-      });
-      it('when stoped', (done: () => void) => {
+        tick(1001);
+        expect(getSecond()).toBe(1);
+        context.comp.stop();
+        fixture.detectChanges();
+        tick(1001);
+        expect(getSecond()).toBe(1);
+        tick(3000);
+      }));
+      it('when stoped', fakeAsync(() => {
         context.config = { leftTime: 2 };
         fixture.detectChanges();
         expect(getSecond()).toBe(2);
         context.comp.stop();
         fixture.detectChanges();
-        setTimeout(() => {
-          expect(getSecond()).toBe(2);
-          context.comp.stop();
-          fixture.detectChanges();
-          setTimeout(() => {
-            expect(getSecond()).toBe(2);
-            done();
-          }, 1001);
-        }, 1001);
-      });
+        tick(1001);
+        expect(getSecond()).toBe(2);
+        context.comp.stop();
+        fixture.detectChanges();
+        tick(1001);
+        expect(getSecond()).toBe(2);
+        tick(3000);
+      }));
     });
     describe('#pause', () => {
-      it('normal', (done: () => void) => {
+      it('normal', fakeAsync(() => {
         context.config = { leftTime: 2 };
         fixture.detectChanges();
         expect(getSecond()).toBe(2);
-        setTimeout(() => {
-          expect(getSecond()).toBe(1);
-          context.comp.pause();
-          fixture.detectChanges();
-          setTimeout(() => {
-            expect(getSecond()).toBe(1);
-            done();
-          }, 1001);
-        }, 1001);
-      });
+        tick(1001);
+        expect(getSecond()).toBe(1);
+        context.comp.pause();
+        tick(1001);
+        expect(getSecond()).toBe(1);
+        context.comp.resume();
+        tick(3000);
+      }));
 
-      it('when parsed', (done: () => void) => {
+      it('when parsed', fakeAsync(() => {
         context.config = { leftTime: 2 };
         fixture.detectChanges();
         expect(getSecond()).toBe(2);
         context.comp.pause();
-        fixture.detectChanges();
-        setTimeout(() => {
-          expect(getSecond()).toBe(2);
-          context.comp.pause();
-          fixture.detectChanges();
-          setTimeout(() => {
-            expect(getSecond()).toBe(2);
-            done();
-          }, 1001);
-        }, 1001);
-      });
+        tick(1001);
+        expect(getSecond()).toBe(2);
+        context.comp.pause();
+        tick(1001);
+        expect(getSecond()).toBe(2);
+        context.comp.resume();
+        tick(3000);
+      }));
     });
     describe('#resume', () => {
-      it('normal', (done: () => void) => {
+      it('normal', fakeAsync(() => {
         context.config = { leftTime: 3 };
         fixture.detectChanges();
         expect(getSecond()).toBe(3);
-        setTimeout(() => {
-          expect(getSecond()).toBe(2);
-          context.comp.pause();
-          setTimeout(() => {
-            expect(getSecond()).toBe(2);
-            context.comp.resume();
-            setTimeout(() => {
-              expect(getSecond()).toBe(1);
-              done();
-            }, 1001);
-          }, 1001);
-        }, 1001);
-      });
-      it('without pause', (done: () => void) => {
+        tick(1001);
+        expect(getSecond()).toBe(2);
+        context.comp.pause();
+        tick(1001);
+        expect(getSecond()).toBe(2);
+        context.comp.resume();
+        tick(1001);
+        expect(getSecond()).toBe(1);
+        context.comp.resume();
+        tick(3000);
+      }));
+      it('without pause', fakeAsync(() => {
         context.config = { leftTime: 2 };
         fixture.detectChanges();
         expect(getSecond()).toBe(2);
-        setTimeout(() => {
-          expect(getSecond()).toBe(1);
-          context.comp.resume();
-          fixture.detectChanges();
-          expect(getSecond()).toBe(1);
-          done();
-        }, 1001);
-      });
+        tick(1001);
+        expect(getSecond()).toBe(1);
+        context.comp.resume();
+        expect(getSecond()).toBe(1);
+        tick(3000);
+      }));
     });
   });
 
   describe('[events]', () => {
-    it('(start)', () => {
+    it('(event)', () => {
       context.config = { demand: true, leftTime: 1 };
       fixture.detectChanges();
-      expect(context.start).not.toHaveBeenCalled();
-      expect(context.event).not.toHaveBeenCalled();
+      expect(context.handleEvent).not.toHaveBeenCalled();
       context.comp.begin();
-      expect(context.start).toHaveBeenCalled();
-      expect(context.event).toHaveBeenCalled();
-    });
-    it('(finished)', (done: () => void) => {
-      context.config = { demand: true, leftTime: 1 };
-      fixture.detectChanges();
-      expect(context.finished).not.toHaveBeenCalled();
-      expect(context.event).not.toHaveBeenCalled();
-      context.comp.begin();
-      setTimeout(() => {
-        expect(context.finished).toHaveBeenCalled();
-        expect(context.event).toHaveBeenCalled();
-        done();
-      }, 2001);
+      expect(context.handleEvent).toHaveBeenCalled();
     });
   });
 });
 
 @Component({
   template: `
-    <countdown #comp
-        [config]="config"
-        (start)="start()"
-        (finished)="finished()"
-        (notify)="notify()"
-        (event)="event()"></countdown>
-    `,
+    <countdown #comp [config]="config" (event)="handleEvent($event)"></countdown>
+  `,
 })
 class TestNGComponent {
-  @ViewChild('comp')
-  comp: CountdownComponent;
-  config: Config = {};
-  start() {}
-  finished() {}
-  notify() {}
-  event() {}
+  @ViewChild('comp', { static: false }) comp: CountdownComponent;
+
+  config: CountdownConfig = {};
+
+  handleEvent(_e: CountdownEvent) {}
 }

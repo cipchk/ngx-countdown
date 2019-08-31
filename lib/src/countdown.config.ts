@@ -1,11 +1,21 @@
-import { Injectable } from '@angular/core';
+// tslint:disable: no-inferrable-types
+import { Injectable, Inject, LOCALE_ID } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { CountdownFormatFn, CountdownConfig } from './interfaces';
 
 @Injectable({ providedIn: 'root' })
-export class CountdownConfig {
-  demand = false;
-  leftTime = 0;
-  template = '$!h!时$!m!分$!s!秒';
-  effect = 'normal';
-  varRegular?: RegExp = /\$\!([\-\w]+)\!/g;
-  clock?: any[] = ['d', 100, 2, 'h', 24, 2, 'm', 60, 2, 's', 60, 2, 'u', 10, 1];
+export class CountdownGlobalConfig implements CountdownConfig {
+  constructor(@Inject(LOCALE_ID) private locale: string) {}
+
+  demand?: boolean = false;
+
+  leftTime?: number = 0;
+
+  format?: string = 'HH:mm:ss';
+
+  timezone?: string = '+0000';
+
+  formatDate?: CountdownFormatFn = ({ date, formatStr, timezone }) => {
+    return formatDate(new Date(date), formatStr, this.locale, timezone || this.timezone || '+0000');
+  };
 }
