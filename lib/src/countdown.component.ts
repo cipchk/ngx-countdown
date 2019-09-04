@@ -116,7 +116,6 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     this.status = config.demand ? CountdownStatus.pause : CountdownStatus.ing;
 
     this.getLeft();
-    this.reflow(0, true);
 
     // bind reflow to me
     const _reflow = this.reflow;
@@ -133,6 +132,8 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.timer.add(this.reflow, frq).start();
+
+    this.reflow(0, true);
   }
 
   private destroy() {
