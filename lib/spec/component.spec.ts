@@ -51,6 +51,7 @@ describe('Component: ngx-countdown', () => {
       expect(context.handleEvent).not.toHaveBeenCalled();
       context.comp.begin();
       expect(spy.calls.first().args[0].status).toBe(CountdownStatus.ing);
+      expect((dl.nativeElement as HTMLElement).textContent.trim()).toBe(`00:00:01`);
     });
     it('should be re-init when reassigning config value', () => {
       context.config = { leftTime: 2 };
