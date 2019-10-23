@@ -119,7 +119,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
     // bind reflow to me
     const _reflow = this.reflow;
-    this.reflow = (count: number = 0) => _reflow.apply(this, [count]);
+    this.reflow = (count: number = 0, force: boolean = false) => _reflow.apply(this, [count, force]);
 
     if (Array.isArray(config.notify)) {
       config.notify.forEach((time: number) => {
