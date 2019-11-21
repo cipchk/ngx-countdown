@@ -1,5 +1,5 @@
 // tslint:disable: member-ordering
-import { Component, ViewEncapsulation, ViewChild, Inject, LOCALE_ID } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, Inject, LOCALE_ID, DoCheck } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { format } from 'date-fns';
@@ -12,8 +12,9 @@ const MINIUES = 1000 * 60;
   styleUrls: ['./demo.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DemoComponent {
+export class DemoComponent implements DoCheck {
   @ViewChild('countdown', { static: false }) private counter: CountdownComponent;
+  doCheckCounter = 0;
   stopConfig: CountdownConfig = { stopTime: new Date().getTime() + 1000 * 30 };
   notify: string;
   config: CountdownConfig = { leftTime: 10, notify: [2, 5] };
@@ -67,5 +68,8 @@ export class DemoComponent {
       this.notify += ` - ${e.left} ms`;
     }
     console.log(e);
+  }
+  ngDoCheck() {
+    console.log(this.doCheckCounter++);
   }
 }
