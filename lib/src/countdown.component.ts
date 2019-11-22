@@ -14,6 +14,7 @@ import {
   LOCALE_ID,
   ChangeDetectorRef,
   TemplateRef,
+  NgZone,
 } from '@angular/core';
 
 import { CountdownConfig, CountdownStatus, CountdownEvent, CountdownEventAction, CountdownItem } from './interfaces';
@@ -49,6 +50,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     private timer: CountdownTimer,
     private defCog: CountdownGlobalConfig,
     private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
   ) {}
 
   get left() {
@@ -165,13 +167,17 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     this.cdr.detectChanges();
 
     if (config.notify === 0 || _notify[value]) {
-      this.callEvent('notify');
+      this.ngZone.run(() => {
+        this.callEvent('notify');
+      });
     }
 
     if (value < 1) {
-      this.status = CountdownStatus.done;
-      this.callEvent('done');
-      this.destroy();
+      this.ngZone.run(() => {
+        this.status = CountdownStatus.done;
+        this.callEvent('done');
+        this.destroy();
+      });
     }
   }
 

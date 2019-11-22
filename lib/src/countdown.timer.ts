@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 @Injectable()
 export class CountdownTimer {
@@ -7,12 +7,16 @@ export class CountdownTimer {
   private nextTime: number;
   private ing = false;
 
+  constructor(private ngZone: NgZone) {}
+
   start() {
     if (this.ing === true) return;
 
     this.ing = true;
     this.nextTime = +new Date();
-    this.process();
+    this.ngZone.runOutsideAngular(() => {
+      this.process();
+    });
   }
 
   private process() {
