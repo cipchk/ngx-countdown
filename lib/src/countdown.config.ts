@@ -5,7 +5,7 @@ import { CountdownFormatFn, CountdownConfig } from './interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class CountdownGlobalConfig implements CountdownConfig {
-  constructor(@Inject(LOCALE_ID) private locale: string) {}
+  constructor(@Inject(LOCALE_ID) private locale: string) { }
 
   demand?: boolean = false;
 

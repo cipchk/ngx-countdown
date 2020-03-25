@@ -46,7 +46,7 @@
       <div class="card-body">
         <div class="mb-3">
           <p class="card-text">Notify at 2, 5 seconds</p>
-          <countdown #countdown [config]="config" (event)="handleEvent2($event)"></countdown>
+          <countdown #countdown [config]="notifyConfig" (event)="handleEvent2($event)"></countdown>
           <div>
             <button (click)="resetTimer()" class="btn btn-link btn-sm">Reset(using restart function)</button>
           </div>
@@ -149,6 +149,16 @@
       <div class="card-body">
         <div class="mb-3">
           <countdown [config]="prettyConfig" class="custom-style"></countdown>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-3">
+    <div class="card text-center">
+      <div class="card-header">More than 24 hours</div>
+      <div class="card-body">
+        <div class="mb-3">
+          <countdown [config]="moreThan24Hours"></countdown>
         </div>
       </div>
     </div>
