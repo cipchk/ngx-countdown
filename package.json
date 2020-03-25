@@ -1,6 +1,6 @@
 {
   "name": "ngx-countdown",
-  "version": "9.0.0-rc.1",
+  "version": "9.0.0",
   "description": "Simple, easy and performance countdown for angular",
   "repository": {
     "type": "git",
