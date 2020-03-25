@@ -1,3 +1,4 @@
+import { TestComponent } from './components/test.component';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -34,13 +35,17 @@ export function countdownConfigFactory(): CountdownConfig {
             { path: 'nothing', component: NothingComponent },
           ],
         },
+        {
+          path: 'test',
+          component: TestComponent,
+        }
       ],
       { useHash: true },
     ),
     CountdownModule,
   ],
-  declarations: [AppComponent, LayoutComponent, DemoComponent, ALotComponent, NothingComponent],
+  declarations: [AppComponent, LayoutComponent, DemoComponent, ALotComponent, NothingComponent, TestComponent],
   providers: [{ provide: CountdownGlobalConfig, useFactory: countdownConfigFactory }],
   bootstrap: [AppComponent],
 })
-export class AppDemoModule {}
+export class AppDemoModule { }
