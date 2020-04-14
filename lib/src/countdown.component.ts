@@ -36,10 +36,10 @@ import { CountdownGlobalConfig } from './countdown.config';
 export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   private frequency = 1000;
   private _notify: any = {};
-  private _left = 0;
   private status: CountdownStatus = CountdownStatus.ing;
   private isDestroy = false;
   i: CountdownItem = {};
+  left = 0;
 
   @Input() config: CountdownConfig;
   @Input() render: TemplateRef<void>;
@@ -52,10 +52,6 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
   ) {}
-
-  get left() {
-    return this._left;
-  }
 
   /**
    * Start countdown, you must manually call when `demand: false`
@@ -107,7 +103,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private callEvent(action: CountdownEventAction) {
-    this.event.emit({ action, left: this._left, status: this.status, text: this.i.text });
+    this.event.emit({ action, left: this.left, status: this.status, text: this.i.text });
   }
 
   private init() {
@@ -156,7 +152,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     const { status, config, _notify } = this;
     if (!force && status !== CountdownStatus.ing) return;
 
-    const value = (this._left = this._left - this.frequency * count);
+    const value = (this.left = this.left - this.frequency * count);
     this.i = {
       value,
       text: config.formatDate({ date: value, formatStr: config.format, timezone: config.timezone }),
@@ -193,7 +189,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
       left = end - new Date().getTime();
     }
 
-    this._left = left - (left % frequency);
+    this.left = left - (left % frequency);
   }
 
   ngOnInit() {
