@@ -41,7 +41,7 @@
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3",
     "bootstrap": "^4.4.1",
-    "ngx-highlight-js": "^9.0.0",
+    "ngx-highlight-js": "^10.0.0",
     "date-fns": "^2.14.0"
   },
   "devDependencies": {
