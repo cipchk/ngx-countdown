@@ -1,8 +1,6 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2015",
-    "lib": ["es2018", "dom"],
     "alwaysStrict": true,
     "sourceMap": true,
     "inlineSources": true,
@@ -11,8 +9,9 @@
     "strictFunctionTypes": true,
     "stripInternal": true
   },
-  "files": [
-    "./index.ts"
+  "files": ["./src/countdown.module.ts"],
+  "include": [
+    "**/*.ts"
   ],
   "angularCompilerOptions": {
     "enableIvy": false

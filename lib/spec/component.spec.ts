@@ -1,4 +1,3 @@
-// tslint:disable:no-use-before-declare
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
@@ -24,7 +23,9 @@ describe('Component: ngx-countdown', () => {
   });
 
   afterEach(() => {
-    if (context.comp) context.comp.ngOnDestroy();
+    if (context.comp) {
+      context.comp.ngOnDestroy();
+    }
   });
 
   function getSecond(): number {
@@ -202,14 +203,12 @@ describe('Component: ngx-countdown', () => {
 });
 
 @Component({
-  template: `
-    <countdown #comp [config]="config" (event)="handleEvent($event)"></countdown>
-  `,
+  template: ` <countdown #comp [config]="config" (event)="handleEvent($event)"></countdown> `,
 })
 class TestNGComponent {
   @ViewChild('comp', { static: false }) comp: CountdownComponent;
 
   config: CountdownConfig = {};
 
-  handleEvent(_e: CountdownEvent) {}
+  handleEvent(_e: CountdownEvent): void {}
 }
