@@ -23,7 +23,7 @@
   "scripts": {
     "analyze": "ng build --prod --stats-json",
     "lint": "tslint -p tsconfig.json -c tslint.json 'lib/*/*.ts'",
-    "test": "ng test --code-coverage --watch=false",
+    "test": "ng test --no-progress --browsers=ChromeHeadlessCI --code-coverage --no-watch",
     "build": "node scripts/build.js",
     "release:next": "npm run build && cd publish && npm publish --access public --tag next",
     "release": "npm run build && cd publish && npm publish --access public"
