@@ -5,7 +5,7 @@ import { CountdownFormatFn, CountdownConfig } from './interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class CountdownGlobalConfig implements CountdownConfig {
-  constructor(@Inject(LOCALE_ID) private locale: string) { }
+  constructor(@Inject(LOCALE_ID) private locale: string) {}
 
   demand?: boolean = false;
 
@@ -17,5 +17,6 @@ export class CountdownGlobalConfig implements CountdownConfig {
 
   formatDate?: CountdownFormatFn = ({ date, formatStr, timezone }) => {
     return formatDate(new Date(date), formatStr, this.locale, timezone || this.timezone || '+0000');
+    // tslint:disable-next-line: semicolon
   };
 }

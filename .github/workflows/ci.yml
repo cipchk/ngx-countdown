@@ -1,0 +1,67 @@
+name: Ci
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+
+      - name: install
+        run: npm install
+
+      - name: run
+        run: |
+          npm run build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+
+      - name: install
+        run: npm install
+
+      - name: run
+        run: |
+          npm run test
+          cat ./coverage/lcov.info | ./node_modules/.bin/codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+
+      - name: install
+        run: npm install
+
+      - name: run
+        run: |
+          npm run lint
+
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+
+      - name: install
+        run: npm install
+
+      - name: build
+        run: |
+          node --max_old_space_size=5120 ./node_modules/@angular/cli/bin/ng build --prod --base-href /ngx-countdown/
+          cp ./dist/index.html ./dist/404.html
+          ls ./dist
+
+      - name: deploy-to-gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

@@ -56,7 +56,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Start countdown, you must manually call when `demand: false`
    */
-  begin() {
+  begin(): void {
     this.status = CountdownStatus.ing;
     this.callEvent('start');
   }
@@ -75,7 +75,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Stop countdown, must call `restart` when stopped, it's different from pause, unable to recover
    */
-  stop() {
+  stop(): void {
     if (this.status === CountdownStatus.stop) {
       return;
     }
@@ -87,8 +87,10 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Pause countdown, you can use `resume` to recover again
    */
-  pause() {
-    if (this.status === CountdownStatus.stop || this.status === CountdownStatus.pause) return;
+  pause(): void {
+    if (this.status === CountdownStatus.stop || this.status === CountdownStatus.pause) {
+      return;
+    }
     this.status = CountdownStatus.pause;
     this.callEvent('pause');
   }
@@ -96,17 +98,19 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Resume countdown
    */
-  resume() {
-    if (this.status === CountdownStatus.stop || this.status !== CountdownStatus.pause) return;
+  resume(): void {
+    if (this.status === CountdownStatus.stop || this.status !== CountdownStatus.pause) {
+      return;
+    }
     this.status = CountdownStatus.ing;
     this.callEvent('resume');
   }
 
-  private callEvent(action: CountdownEventAction) {
+  private callEvent(action: CountdownEventAction): void {
     this.event.emit({ action, left: this.left, status: this.status, text: this.i.text });
   }
 
-  private init() {
+  private init(): void {
     const { locale, defCog } = this;
     const config = (this.config = {
       ...new CountdownGlobalConfig(locale),
@@ -125,7 +129,9 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
     if (Array.isArray(config.notify)) {
       config.notify.forEach((time: number) => {
-        if (time < 1) throw new Error(`The notify config must be a positive integer.`);
+        if (time < 1) {
+          throw new Error(`The notify config must be a positive integer.`);
+        }
 
         time = time * 1000;
         time = time - (time % frq);
@@ -138,7 +144,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     this.reflow(0, true);
   }
 
-  private destroy() {
+  private destroy(): this {
     this.timer.remove(this.reflow);
     return this;
   }
@@ -147,10 +153,14 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
    * 更新时钟
    */
   private reflow(count: number = 0, force: boolean = false): void {
-    if (this.isDestroy) return;
+    if (this.isDestroy) {
+      return;
+    }
 
     const { status, config, _notify } = this;
-    if (!force && status !== CountdownStatus.ing) return;
+    if (!force && status !== CountdownStatus.ing) {
+      return;
+    }
 
     const value = (this.left = this.left - this.frequency * count);
     this.i = {
@@ -192,7 +202,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     this.left = left - (left % frequency);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.init();
     if (!this.config.demand) {
       this.begin();

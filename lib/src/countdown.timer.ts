@@ -9,8 +9,10 @@ export class CountdownTimer {
 
   constructor(private ngZone: NgZone) {}
 
-  start() {
-    if (this.ing === true) return;
+  start(): void {
+    if (this.ing === true) {
+      return;
+    }
 
     this.ing = true;
     this.nextTime = +new Date();
@@ -19,7 +21,7 @@ export class CountdownTimer {
     });
   }
 
-  private process() {
+  private process(): void {
     while (this.commands.length) {
       this.commands.shift()();
     }
@@ -50,7 +52,9 @@ export class CountdownTimer {
       }
     }
 
-    if (!this.ing) return;
+    if (!this.ing) {
+      return;
+    }
 
     setTimeout(() => this.process(), diff);
   }

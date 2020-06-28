@@ -1,0 +1,26 @@
+{
+  "name": "ngx-countdown",
+  "version": "10.0.0",
+  "description": "Simple, easy and performance countdown for angular",
+  "keywords": [
+    "ngx-countdown",
+    "ng-countdown",
+    "angular-countdown",
+    "angular countdown",
+    "countdown",
+    "count down"
+  ],
+  "author": "cipchk <cipchk@qq.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cipchk/ngx-countdown"
+  },
+  "bugs": {
+    "url": "https://github.com/cipchk/ngx-countdown/issues"
+  },
+  "homepage": "https://cipchk.github.io/ngx-countdown/",
+  "peerDependencies": {
+    "@angular/core": "~10.0.0"
+  }
+}
