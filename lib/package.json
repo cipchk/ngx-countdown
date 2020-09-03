@@ -1,6 +1,6 @@
 {
   "name": "ngx-countdown",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "description": "Simple, easy and performance countdown for angular",
   "keywords": [
     "ngx-countdown",
@@ -21,6 +21,6 @@
   },
   "homepage": "https://cipchk.github.io/ngx-countdown/",
   "peerDependencies": {
-    "@angular/core": "~10.0.0"
+    "@angular/core": "^10.0.0"
   }
 }
