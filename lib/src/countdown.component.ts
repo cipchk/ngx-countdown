@@ -35,7 +35,7 @@ import { CountdownGlobalConfig } from './countdown.config';
 })
 export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   private frequency = 1000;
-  private _notify: any = {};
+  private _notify: { [key: number]: boolean } = {};
   private status: CountdownStatus = CountdownStatus.ing;
   private isDestroy = false;
   i: CountdownItem = {};
@@ -162,7 +162,10 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    const value = (this.left = this.left - this.frequency * count);
+    let value = (this.left = this.left - this.frequency * count);
+    if (value < 1) {
+      value = 0;
+    }
     this.i = {
       value,
       text: config.formatDate({ date: value, formatStr: config.format, timezone: config.timezone }),
@@ -178,7 +181,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
       });
     }
 
-    if (value < 1) {
+    if (value === 0) {
       this.ngZone.run(() => {
         this.status = CountdownStatus.done;
         this.callEvent('done');
