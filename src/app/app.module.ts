@@ -40,7 +40,7 @@ export function countdownConfigFactory(): CountdownConfig {
           component: TestComponent,
         }
       ],
-      { useHash: true },
+      { useHash: true, relativeLinkResolution: 'legacy' },
     ),
     CountdownModule,
   ],
