@@ -3,7 +3,7 @@
 Simple, easy and performance countdown for angular
 
 [![NPM version](https://img.shields.io/npm/v/ngx-countdown.svg)](https://www.npmjs.com/package/ngx-countdown)
-[![Build Status](https://travis-ci.org/cipchk/ngx-countdown.svg?branch=master)](https://travis-ci.org/cipchk/ngx-countdown)
+[![Ci](https://github.com/cipchk/ngx-countdown/workflows/Ci/badge.svg)](https://github.com/cipchk/ngx-countdown/actions?query=workflow%3ACi)
 
 ## Demo
 
