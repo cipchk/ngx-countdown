@@ -52,7 +52,8 @@ export interface CountdownConfig {
   formatDate?: CountdownFormatFn;
 
   /**
-   * A timezone offset (such as '+0430'), or a standard UTC/GMT. When not supplied, uses the end-user's local system timezone, Default: `+0000`
+   * A timezone offset (such as '+0430'), or a standard UTC/GMT.
+   * When not supplied, uses the end-user's local system timezone, Default: `+0000`
    */
   timezone?: string;
 }
