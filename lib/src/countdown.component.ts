@@ -184,8 +184,8 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     if (value === 0) {
       this.ngZone.run(() => {
         this.status = CountdownStatus.done;
-        this.callEvent('done');
         this.destroy();
+        this.callEvent('done');
       });
     }
   }
