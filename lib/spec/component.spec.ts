@@ -40,6 +40,13 @@ describe('Component: ngx-countdown', () => {
       expect(spy.calls.mostRecent().args[0].action).toBe('notify');
       tick(1000);
     }));
+    it('should notify is greater than 0', fakeAsync(() => {
+      context.config = { leftTime: 2, notify: 1 };
+      fixture.detectChanges();
+      tick(1001);
+      expect(spy.calls.mostRecent().args[0].action).toBe('notify');
+      tick(1000);
+    }));
     it('should be throw error when notify is not positive integer', () => {
       expect(() => {
         context.config = { leftTime: 2, notify: [0.1] };

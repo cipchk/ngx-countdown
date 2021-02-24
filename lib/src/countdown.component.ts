@@ -38,10 +38,20 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   private _notify: { [key: number]: boolean } = {};
   private status: CountdownStatus = CountdownStatus.ing;
   private isDestroy = false;
+  private _config: CountdownConfig;
   i: CountdownItem = {};
   left = 0;
 
-  @Input() config: CountdownConfig;
+  @Input()
+  set config(i: CountdownConfig) {
+    if (i.notify != null && !Array.isArray(i.notify) && i.notify > 0) {
+      i.notify = [i.notify];
+    }
+    this._config = i;
+  }
+  get config(): CountdownConfig {
+    return this._config;
+  }
   @Input() render: TemplateRef<void>;
   @Output() readonly event = new EventEmitter<CountdownEvent>();
 
