@@ -29,7 +29,7 @@ describe('Component: ngx-countdown', () => {
   });
 
   function getSecond(): number {
-    return context.comp.i.value / 1000;
+    return context.comp.i.value! / 1000;
   }
 
   describe('[default]', () => {
@@ -59,7 +59,7 @@ describe('Component: ngx-countdown', () => {
       expect(context.handleEvent).not.toHaveBeenCalled();
       context.comp.begin();
       expect(spy.calls.first().args[0].status).toBe(CountdownStatus.ing);
-      expect((dl.nativeElement as HTMLElement).textContent.trim()).toBe(`00:00:01`);
+      expect((dl.nativeElement as HTMLElement).textContent!.trim()).toBe(`00:00:01`);
     });
     it('should be re-init when reassigning config value', () => {
       context.config = { leftTime: 2 };
@@ -213,7 +213,7 @@ describe('Component: ngx-countdown', () => {
   template: ` <countdown #comp [config]="config" (event)="handleEvent($event)"></countdown> `,
 })
 class TestNGComponent {
-  @ViewChild('comp', { static: false }) comp: CountdownComponent;
+  @ViewChild('comp', { static: false }) comp!: CountdownComponent;
 
   config: CountdownConfig = {};
 

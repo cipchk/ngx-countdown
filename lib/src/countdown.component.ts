@@ -38,7 +38,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   private _notify: { [key: number]: boolean } = {};
   private status: CountdownStatus = CountdownStatus.ing;
   private isDestroy = false;
-  private _config: CountdownConfig;
+  private _config!: CountdownConfig;
   i: CountdownItem = {};
   left = 0;
 
@@ -52,7 +52,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   get config(): CountdownConfig {
     return this._config;
   }
-  @Input() render: TemplateRef<void>;
+  @Input() render!: TemplateRef<void>;
   @Output() readonly event = new EventEmitter<CountdownEvent>();
 
   constructor(
@@ -117,7 +117,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private callEvent(action: CountdownEventAction): void {
-    this.event.emit({ action, left: this.left, status: this.status, text: this.i.text });
+    this.event.emit({ action, left: this.left, status: this.status, text: this.i.text! });
   }
 
   private init(): void {
@@ -128,7 +128,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
       ...this.config,
     });
     // tslint:disable-next-line: no-bitwise
-    const frq = (this.frequency = ~config.format.indexOf('S') ? 100 : 1000);
+    const frq = (this.frequency = ~config.format!.indexOf('S') ? 100 : 1000);
     this.status = config.demand ? CountdownStatus.pause : CountdownStatus.ing;
 
     this.getLeft();
@@ -178,10 +178,10 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.i = {
       value,
-      text: config.formatDate({ date: value, formatStr: config.format, timezone: config.timezone }),
+      text: config.formatDate!({ date: value, formatStr: config.format!, timezone: config.timezone }),
     };
     if (typeof config.prettyText === 'function') {
-      this.i.text = config.prettyText(this.i.text);
+      this.i.text = config.prettyText(this.i.text!);
     }
     this.cdr.detectChanges();
 
@@ -205,7 +205,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
    */
   private getLeft(): void {
     const { config, frequency } = this;
-    let left = config.leftTime * 1000;
+    let left = config.leftTime! * 1000;
     const end = config.stopTime;
 
     if (!left && end) {
@@ -228,7 +228,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: { [P in keyof this]?: SimpleChange } & SimpleChanges): void {
-    if (!changes.config.firstChange) {
+    if (!changes.config!.firstChange) {
       this.restart();
     }
   }

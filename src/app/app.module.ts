@@ -38,7 +38,7 @@ export function countdownConfigFactory(): CountdownConfig {
         {
           path: 'test',
           component: TestComponent,
-        }
+        },
       ],
       { useHash: true, relativeLinkResolution: 'legacy' },
     ),
@@ -48,4 +48,4 @@ export function countdownConfigFactory(): CountdownConfig {
   providers: [{ provide: CountdownGlobalConfig, useFactory: countdownConfigFactory }],
   bootstrap: [AppComponent],
 })
-export class AppDemoModule { }
+export class AppDemoModule {}

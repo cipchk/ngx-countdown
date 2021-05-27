@@ -22,10 +22,10 @@ const CountdownTimeUnits: Array<[string, number]> = [
   encapsulation: ViewEncapsulation.None,
 })
 export class DemoComponent implements DoCheck {
-  @ViewChild('countdown', { static: false }) private counter: CountdownComponent;
+  @ViewChild('countdown', { static: false }) private counter!: CountdownComponent;
   doCheckCounter = 0;
   stopConfig: CountdownConfig = { stopTime: new Date().getTime() + 1000 * 30 };
-  notify: string;
+  notify = '';
   config: CountdownConfig = { leftTime: 10 };
   notifyConfig: CountdownConfig = { leftTime: 10, notify: [2, 5] };
   customFormat: CountdownConfig = {

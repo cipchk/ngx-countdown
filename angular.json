@@ -8,6 +8,9 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "less"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "root": "",
@@ -22,53 +25,58 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
-            "assets": ["src/assets"],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.css"
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ],
+            "inlineStyleLanguage": "less",
+            "styles": [],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "ngx-countdown:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "ngx-countdown:build:production"
+            },
+            "development": {
+              "browserTarget": "ngx-countdown:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -76,24 +84,25 @@
             "main": "lib/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "scripts": [],
-            "styles": [],
-            "assets": []
+            "karmaConfig": "karma.conf.js"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html",
+              "lib/**/*.ts",
+              "lib/**/*.html"
+            ]
           }
         }
       }
     }
   },
-  "defaultProject": "ngx-countdown"
+  "defaultProject": "ngx-countdown",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
