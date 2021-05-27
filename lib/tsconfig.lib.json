@@ -4,7 +4,6 @@
     "alwaysStrict": true,
     "sourceMap": true,
     "inlineSources": true,
-    "emitDecoratorMetadata": true,
     "declaration": true,
     "strictFunctionTypes": true,
     "stripInternal": true

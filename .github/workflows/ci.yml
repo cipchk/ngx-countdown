@@ -56,7 +56,7 @@ jobs:
 
       - name: build
         run: |
-          node --max_old_space_size=5120 ./node_modules/@angular/cli/bin/ng build --prod --base-href /ngx-countdown/
+          node --max_old_space_size=5120 ./node_modules/@angular/cli/bin/ng build --base-href /ngx-countdown/
           cp ./dist/index.html ./dist/404.html
           ls ./dist
 

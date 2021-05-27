@@ -4,7 +4,7 @@ import { Injectable, NgZone } from '@angular/core';
 export class CountdownTimer {
   private fns: Array<((count: number) => number | void) | number> = [];
   private commands: Array<() => void> = [];
-  private nextTime: number;
+  private nextTime = 0;
   private ing = false;
 
   constructor(private ngZone: NgZone) {}
@@ -23,7 +23,7 @@ export class CountdownTimer {
 
   private process(): void {
     while (this.commands.length) {
-      this.commands.shift()();
+      this.commands.shift()!();
     }
     let diff = +new Date() - this.nextTime;
     const count = 1 + Math.floor(diff / 100);
