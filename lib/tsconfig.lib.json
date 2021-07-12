@@ -13,7 +13,7 @@
     "**/*.ts"
   ],
   "angularCompilerOptions": {
-    "enableIvy": true,
+    "enableIvy": false,
     "compilationMode": "partial"
   }
 }
