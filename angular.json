@@ -30,7 +30,7 @@
               "src/assets"
             ],
             "inlineStyleLanguage": "less",
-            "styles": [],
+            "styles": ["src/styles.less"],
             "scripts": []
           },
           "configurations": {
