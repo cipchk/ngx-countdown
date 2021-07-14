@@ -6,7 +6,7 @@ import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
   template: `
     <div class="card-header">
       Notify
-      <view-code name="timestamp"></view-code>
+      <view-code name="notify"></view-code>
     </div>
     <div class="card-body">
       <p class="card-text">Notify at 2, 5 seconds</p>

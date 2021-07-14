@@ -8,7 +8,7 @@ const MINIUES = 1000 * 60;
   selector: 'demo-custom-format-date',
   template: `
     <div class="card-header">
-      Custom format date
+      Custom format date via formatDate
       <view-code name="custom-format-date"></view-code>
     </div>
     <div class="card-body">

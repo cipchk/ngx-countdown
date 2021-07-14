@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <div class="card-header">
       Basic
-      <view-code name="timestamp"></view-code>
+      <view-code name="basic"></view-code>
     </div>
     <div class="card-body">
       <countdown [config]="{ leftTime: 30 }"></countdown>

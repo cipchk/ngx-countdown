@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <div class="card-header">
       Accuracy 0.1s
-      <view-code name="timestamp"></view-code>
+      <view-code name="accuracy"></view-code>
     </div>
     <div class="card-body">
       <countdown [config]="{ leftTime: 10000, format: '剩余时间：h时m分s.S秒' }"></countdown>
