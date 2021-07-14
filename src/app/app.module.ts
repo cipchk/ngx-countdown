@@ -13,6 +13,7 @@ import { LayoutComponent } from './components/layout.component';
 import { DemoComponent } from './components/demo.component';
 import { ALotComponent } from './components/alot.component';
 import { NothingComponent } from './components/nothing.component';
+import { OnlySecondsComponent } from './components/only-seconds.component';
 
 export function countdownConfigFactory(): CountdownConfig {
   return {};
@@ -44,7 +45,7 @@ export function countdownConfigFactory(): CountdownConfig {
     ),
     CountdownModule,
   ],
-  declarations: [AppComponent, LayoutComponent, DemoComponent, ALotComponent, NothingComponent, TestComponent],
+  declarations: [AppComponent, LayoutComponent, DemoComponent, ALotComponent, NothingComponent, TestComponent, OnlySecondsComponent],
   providers: [{ provide: CountdownGlobalConfig, useFactory: countdownConfigFactory }],
   bootstrap: [AppComponent],
 })
