@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CountdownConfig } from 'ngx-countdown';
+import { format } from 'date-fns';
 
 @Component({
-  selector: 'demo-only-seconds',
+  selector: 'demo-date-fns',
   template: `
     <div class="card-header">
-      Only Seconds
-      <view-code name="only-seconds"></view-code>
+      Using date-fns format date
+      <view-code name="date-fns"></view-code>
     </div>
     <div class="card-body">
       <countdown [config]="config"></countdown>
@@ -18,9 +19,10 @@ import { CountdownConfig } from 'ngx-countdown';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OnlySecondsComponent {
+export class DatefnsComponent {
   config: CountdownConfig = {
-    leftTime: 60 * 3,
-    formatDate: ({ date }) => `${date / 1000}`,
+    leftTime: 60 * 60 * 24 * 365 * (2050 - 1970),
+    format: 'yyyy-MM-dd E HH:mm:ss a',
+    formatDate: ({ date, formatStr }) => format(date, formatStr),
   };
 }

@@ -14,6 +14,18 @@ import { DemoComponent } from './components/demo.component';
 import { ALotComponent } from './components/alot.component';
 import { NothingComponent } from './components/nothing.component';
 import { OnlySecondsComponent } from './components/only-seconds.component';
+import { ViewCodeComponent } from './components/view-code.component';
+import { MoreThan24HoursComponent } from './components/more-than-24-hours.component';
+import { DatefnsComponent } from './components/date-fns.component';
+import { PrettyTextComponent } from './components/pretty-text.component';
+import { ActionsComponent } from './components/actions.component';
+import { DemandComponent } from './components/demand.component';
+import { CustomFormatDateComponent } from './components/custom-format-date.component';
+import { TimestampComponent } from './components/timestamp.component';
+import { NotifyComponent } from './components/notify.component';
+import { AccuracyComponent } from './components/accuracy.component';
+import { CustomFormatComponent } from './components/custom-format.component';
+import { BasicComponent } from './components/basic.component';
 
 export function countdownConfigFactory(): CountdownConfig {
   return {};
@@ -45,7 +57,27 @@ export function countdownConfigFactory(): CountdownConfig {
     ),
     CountdownModule,
   ],
-  declarations: [AppComponent, LayoutComponent, DemoComponent, ALotComponent, NothingComponent, TestComponent, OnlySecondsComponent],
+  declarations: [
+    AppComponent,
+    LayoutComponent,
+    DemoComponent,
+    ALotComponent,
+    NothingComponent,
+    TestComponent,
+    ViewCodeComponent,
+    BasicComponent,
+    CustomFormatComponent,
+    AccuracyComponent,
+    NotifyComponent,
+    TimestampComponent,
+    CustomFormatDateComponent,
+    DemandComponent,
+    ActionsComponent,
+    PrettyTextComponent,
+    DatefnsComponent,
+    MoreThan24HoursComponent,
+    OnlySecondsComponent,
+  ],
   providers: [{ provide: CountdownGlobalConfig, useFactory: countdownConfigFactory }],
   bootstrap: [AppComponent],
 })
