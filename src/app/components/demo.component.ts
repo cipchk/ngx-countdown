@@ -15,6 +15,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     <div class="col-sm-4 mb-3"><demo-pretty-text></demo-pretty-text></div>
     <div class="col-sm-4 mb-3"><more-than-24-hours></more-than-24-hours></div>
     <div class="col-sm-4 mb-3"><demo-only-seconds></demo-only-seconds></div>
+    <div class="col-sm-4 mb-3"><demo-keeping-when-refresh></demo-keeping-when-refresh></div>
   </div> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

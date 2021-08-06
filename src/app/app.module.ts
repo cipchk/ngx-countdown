@@ -26,6 +26,7 @@ import { NotifyComponent } from './components/notify.component';
 import { AccuracyComponent } from './components/accuracy.component';
 import { CustomFormatComponent } from './components/custom-format.component';
 import { BasicComponent } from './components/basic.component';
+import { KeepingWhenRefreshComponent } from './components/keeping-when-refresh.component';
 
 export function countdownConfigFactory(): CountdownConfig {
   return {};
@@ -77,6 +78,7 @@ export function countdownConfigFactory(): CountdownConfig {
     DatefnsComponent,
     MoreThan24HoursComponent,
     OnlySecondsComponent,
+    KeepingWhenRefreshComponent,
   ],
   providers: [{ provide: CountdownGlobalConfig, useFactory: countdownConfigFactory }],
   bootstrap: [AppComponent],
