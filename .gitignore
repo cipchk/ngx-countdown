@@ -6,6 +6,7 @@
 /out-tsc
 /publish
 /yarn.lock
+/.angular/cache
 
 # dependencies
 /node_modules
