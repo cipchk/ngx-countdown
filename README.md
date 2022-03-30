@@ -88,7 +88,7 @@ this.countdown.begin();
 **Global Config**
 
 ```ts
-function countdownConfigFactory(): CountdownGlobalConfig {
+function countdownConfigFactory(): CountdownConfig {
   return { format: `mm:ss` };
 }
 
