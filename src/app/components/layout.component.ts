@@ -26,6 +26,9 @@ import { Component } from '@angular/core';
           <li class="nav-item">
             <a class="nav-link" routerLink="/nothing">Performance</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/standalone">Standalone</a>
+          </li>
         </ul>
       </div>
     </nav>

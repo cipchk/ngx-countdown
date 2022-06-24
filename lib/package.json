@@ -1,6 +1,6 @@
 {
   "name": "ngx-countdown",
-  "version": "13.0.0",
+  "version": "14.0.0",
   "description": "Simple, easy and performance countdown for angular",
   "keywords": [
     "ngx-countdown",
@@ -8,7 +8,8 @@
     "angular-countdown",
     "angular countdown",
     "countdown",
-    "count down"
+    "count down",
+    "angular standalone library"
   ],
   "author": "cipchk <cipchk@qq.com>",
   "license": "MIT",

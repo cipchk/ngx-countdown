@@ -27,6 +27,7 @@ import { AccuracyComponent } from './components/accuracy.component';
 import { CustomFormatComponent } from './components/custom-format.component';
 import { BasicComponent } from './components/basic.component';
 import { KeepingWhenRefreshComponent } from './components/keeping-when-refresh.component';
+import { StandaloneComponent } from './standalone.component';
 
 export function countdownConfigFactory(): CountdownConfig {
   return {};
@@ -47,6 +48,7 @@ export function countdownConfigFactory(): CountdownConfig {
             { path: '', component: DemoComponent },
             { path: 'alot', component: ALotComponent },
             { path: 'nothing', component: NothingComponent },
+            { path: 'standalone', component: StandaloneComponent },
           ],
         },
         {
