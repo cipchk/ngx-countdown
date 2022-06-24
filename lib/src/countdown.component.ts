@@ -20,6 +20,7 @@ import {
 import { CountdownConfig, CountdownStatus, CountdownEvent, CountdownEventAction, CountdownItem } from './interfaces';
 import { CountdownTimer } from './countdown.timer';
 import { CountdownGlobalConfig } from './countdown.config';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'countdown',
@@ -32,6 +33,9 @@ import { CountdownGlobalConfig } from './countdown.config';
   host: { '[class.count-down]': 'true' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule],
+  providers: [CountdownTimer],
+  standalone: true,
 })
 export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   private frequency = 1000;
