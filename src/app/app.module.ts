@@ -56,7 +56,7 @@ export function countdownConfigFactory(): CountdownConfig {
           component: TestComponent,
         },
       ],
-      { useHash: true, relativeLinkResolution: 'legacy' },
+      { useHash: true },
     ),
     CountdownModule,
   ],
