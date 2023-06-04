@@ -17,15 +17,15 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "es2020",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
     "lib": [
-      "es2020",
+      "ES2022",
       "dom"
     ],
     "paths": {
       "ngx-countdown": ["lib/src/index"]
-    },
-    "useDefineForClassFields": false
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

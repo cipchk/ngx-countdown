@@ -9,7 +9,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
 
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: borales/actions-yarn@v4
         with:
           cmd: install
 
@@ -23,7 +23,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
 
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: borales/actions-yarn@v4
         with:
           cmd: install
 
@@ -40,13 +40,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
 
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: borales/actions-yarn@v4
         with:
           cmd: install
 
-      - name: run
-        run: |
-          yarn run lint
+      - uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
 
   site:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
 
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: borales/actions-yarn@v4
         with:
           cmd: install
 

@@ -46,7 +46,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   i: CountdownItem = {};
   left = 0;
 
-  @Input()
+  @Input({ required: true })
   set config(i: CountdownConfig) {
     if (i.notify != null && !Array.isArray(i.notify) && i.notify > 0) {
       i.notify = [i.notify];
@@ -56,7 +56,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   get config(): CountdownConfig {
     return this._config;
   }
-  @Input() render!: TemplateRef<void>;
+  @Input() render!: TemplateRef<{ $implicit: CountdownItem }>;
   @Output() readonly event = new EventEmitter<CountdownEvent>();
 
   constructor(
