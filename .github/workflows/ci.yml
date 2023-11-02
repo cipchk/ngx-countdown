@@ -28,11 +28,16 @@ jobs:
           cmd: install
 
       - name: run
-        run: |
-          yarn run test
-          cat ./coverage/lcov.info | ./node_modules/.bin/codecov
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: yarn run test
+
+      - uses: codecov/codecov-action@v3
+        name: upload
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          files: ./coverage/cobertura-coverage.xml
+          fail_ci_if_error: true
+          verbose: true
 
   lint:
     runs-on: ubuntu-latest
@@ -61,11 +66,11 @@ jobs:
       - name: build
         run: |
           node --max_old_space_size=5120 ./node_modules/@angular/cli/bin/ng build --base-href /ngx-countdown/
-          cp ./dist/index.html ./dist/404.html
-          ls ./dist
+          cp ./dist/browser/index.html ./dist/browser/404.html
+          ls ./dist/browser
 
       - name: deploy-to-gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./dist/browser

@@ -1,12 +1,18 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { enableProdMode } from '@angular/core';
-import { environment } from './environments/environment';
-import { AppDemoModule } from './app/app.module';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { ROUTERS } from './app/router';
+import { CountdownConfig, CountdownGlobalConfig } from 'ngx-countdown';
 
-if (environment.production) {
-  enableProdMode();
+export function countdownConfigFactory(): CountdownConfig {
+  return {};
 }
 
-platformBrowserDynamic()
-  .bootstrapModule(AppDemoModule)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(),
+    provideRouter(ROUTERS, withHashLocation()),
+    { provide: CountdownGlobalConfig, useFactory: countdownConfigFactory },
+  ],
+}).catch((err) => console.error(err));

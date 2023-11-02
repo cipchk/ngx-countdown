@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
+import { ViewCodeComponent } from './view-code.component';
 
 @Component({
   selector: 'demo-actions',
@@ -24,6 +25,8 @@ import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CountdownComponent, ViewCodeComponent],
 })
 export class ActionsComponent {
   config: CountdownConfig = {

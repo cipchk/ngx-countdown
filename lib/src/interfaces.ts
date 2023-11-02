@@ -42,7 +42,7 @@ export interface CountdownConfig {
   /**
    * Should be trigger type `notify` event on the x second. When values is `0` will be trigger every time.
    */
-  notify?: number[] | number;
+  notify?: number[] | 0;
 
   /**
    * Default based on the implementation of `formatDate` in `@angular/common`

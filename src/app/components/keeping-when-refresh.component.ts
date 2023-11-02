@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
+import { ViewCodeComponent } from './view-code.component';
 
 const KEY = 'time';
 const DEFAULT = 50;
@@ -20,6 +21,8 @@ const DEFAULT = 50;
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CountdownComponent, ViewCodeComponent],
 })
 export class KeepingWhenRefreshComponent implements OnInit {
   config: CountdownConfig = { leftTime: DEFAULT, notify: 0 };

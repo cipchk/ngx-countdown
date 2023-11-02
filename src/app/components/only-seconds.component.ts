@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+import { ViewCodeComponent } from './view-code.component';
 
 @Component({
   selector: 'demo-only-seconds',
@@ -17,6 +18,8 @@ import { CountdownConfig } from 'ngx-countdown';
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CountdownComponent, ViewCodeComponent],
 })
 export class OnlySecondsComponent {
   config: CountdownConfig = {

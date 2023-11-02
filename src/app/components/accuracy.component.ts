@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CountdownComponent } from 'ngx-countdown';
+import { ViewCodeComponent } from './view-code.component';
 
 @Component({
   selector: 'demo-accuracy',
@@ -16,5 +18,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CountdownComponent, ViewCodeComponent],
 })
 export class AccuracyComponent {}

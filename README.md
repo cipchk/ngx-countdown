@@ -34,7 +34,7 @@ export class AppModule { }
 ### 2、Template
 
 ```html
-<countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
+<countdown #cd [config]="config" (event)="handleEvent($event)" />
 ```
 
 **Method**
@@ -52,6 +52,17 @@ export class AppModule { }
 ```ts
 @ViewChild('cd', { static: false }) private countdown: CountdownComponent;
 this.countdown.begin();
+```
+
+### Standalone
+
+```ts
+@Component({
+  template: `<countdown />`,
+  standalone: true,
+  imports: [CountdownComponent],
+})
+export class App
 ```
 
 ## API
