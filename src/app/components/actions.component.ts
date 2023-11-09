@@ -7,10 +7,10 @@ import { ViewCodeComponent } from './view-code.component';
   template: `
     <div class="card-header">
       Actions
-      <view-code name="actions"></view-code>
+      <view-code name="actions" />
     </div>
     <div class="card-body">
-      <countdown #cd (event)="handleEvent($event)" [config]="{ leftTime: 30 }"></countdown>
+      <countdown #cd (event)="handleEvent($event)" [config]="{ leftTime: 30 }" />
       <div>
         <button (click)="cd.pause()" class="btn btn-link btn-sm">pause</button>
         <button (click)="cd.resume()" class="btn btn-link btn-sm">resume</button>

@@ -7,11 +7,11 @@ import { ViewCodeComponent } from './view-code.component';
   template: `
     <div class="card-header">
       Unix timestamp
-      <view-code name="timestamp"></view-code>
+      <view-code name="timestamp" />
     </div>
     <div class="card-body">
       <p class="card-text">指的是根据本地时间至结束时间进行倒计时</p>
-      <countdown [config]="config"></countdown>
+      <countdown [config]="config" />
       <div>
         <button (click)="resetStop()" class="btn btn-link btn-sm">Reset</button>
       </div>

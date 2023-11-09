@@ -10,10 +10,10 @@ const MINIUES = 1000 * 60;
   template: `
     <div class="card-header">
       Custom format date via formatDate
-      <view-code name="custom-format-date"></view-code>
+      <view-code name="custom-format-date" />
     </div>
     <div class="card-body">
-      <countdown [config]="config"></countdown>
+      <countdown [config]="config" />
     </div>
   `,
   host: {

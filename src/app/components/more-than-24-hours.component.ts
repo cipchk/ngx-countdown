@@ -17,10 +17,10 @@ const CountdownTimeUnits: Array<[string, number]> = [
   template: `
     <div class="card-header">
       More than 24 hours
-      <view-code name="more-than-24-hours"></view-code>
+      <view-code name="more-than-24-hours" />
     </div>
     <div class="card-body">
-      <countdown #cd [config]="config"></countdown>
+      <countdown #cd [config]="config" />
       <div>
         <button (click)="cd.pause()" class="btn btn-link btn-sm">pause</button>
         <button (click)="cd.resume()" class="btn btn-link btn-sm">resume</button>

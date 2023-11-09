@@ -7,10 +7,10 @@ import { ViewCodeComponent } from './view-code.component';
   template: `
     <div class="card-header">
       Basic
-      <view-code name="basic"></view-code>
+      <view-code name="basic" />
     </div>
     <div class="card-body">
-      <countdown [config]="{ leftTime: 30 }"></countdown>
+      <countdown [config]="{ leftTime: 30 }" />
     </div>
   `,
   host: {

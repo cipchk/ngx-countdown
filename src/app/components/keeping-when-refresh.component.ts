@@ -10,10 +10,10 @@ const DEFAULT = 50;
   template: `
     <div class="card-header">
       Keeping when refresh page
-      <view-code name="keeping-when-refresh"></view-code>
+      <view-code name="keeping-when-refresh" />
     </div>
     <div class="card-body">
-      <countdown [config]="config" (event)="handleEvent($event)"></countdown>
+      <countdown [config]="config" (event)="handleEvent($event)" />
     </div>
   `,
   host: {
