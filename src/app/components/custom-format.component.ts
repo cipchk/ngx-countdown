@@ -7,10 +7,10 @@ import { ViewCodeComponent } from './view-code.component';
   template: `
     <div class="card-header">
       Custom format
-      <view-code name="custom-format"></view-code>
+      <view-code name="custom-format" />
     </div>
     <div class="card-body">
-      <countdown [config]="{ leftTime: 100, format: 'm:s' }"></countdown>
+      <countdown [config]="{ leftTime: 100, format: 'm:s' }" />
     </div>
   `,
   host: {

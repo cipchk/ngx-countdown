@@ -8,10 +8,10 @@ import { ViewCodeComponent } from './view-code.component';
   template: `
     <div class="card-header">
       Using date-fns format date
-      <view-code name="date-fns"></view-code>
+      <view-code name="date-fns" />
     </div>
     <div class="card-body">
-      <countdown [config]="config"></countdown>
+      <countdown [config]="config" />
     </div>
   `,
   host: {

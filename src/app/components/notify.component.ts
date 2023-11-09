@@ -7,11 +7,11 @@ import { ViewCodeComponent } from './view-code.component';
   template: `
     <div class="card-header">
       Notify
-      <view-code name="notify"></view-code>
+      <view-code name="notify" />
     </div>
     <div class="card-body">
       <p class="card-text">Notify at 2, 5 seconds</p>
-      <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
+      <countdown #cd [config]="config" (event)="handleEvent($event)" />
       <div>
         <button (click)="cd.restart()" class="btn btn-link btn-sm">Reset(using restart function)</button>
       </div>
