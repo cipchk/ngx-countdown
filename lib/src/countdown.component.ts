@@ -25,10 +25,11 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 @Component({
   selector: 'countdown',
   template: `
-    <ng-container *ngIf="!render">
-      <span [innerHTML]="i.text"></span>
-    </ng-container>
-    <ng-container *ngTemplateOutlet="render!; context: { $implicit: i }"></ng-container>
+    @if (render) {
+    <ng-container *ngTemplateOutlet="render; context: { $implicit: i }" />
+    } @else {
+    <span [innerHTML]="i.text"></span>
+    }
   `,
   host: { '[class.count-down]': 'true' },
   encapsulation: ViewEncapsulation.None,

@@ -235,7 +235,7 @@ describe('Component: ngx-countdown', () => {
 });
 
 @Component({
-  template: ` <countdown #comp [config]="config" (event)="handleEvent($event)"></countdown> `,
+  template: `<countdown #comp [config]="config" (event)="handleEvent($event)" />`,
 })
 class TestNGComponent {
   @ViewChild('comp', { static: false }) comp!: CountdownComponent;
