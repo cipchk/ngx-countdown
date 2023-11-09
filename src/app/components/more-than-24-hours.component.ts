@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+import { ViewCodeComponent } from './view-code.component';
 
 const CountdownTimeUnits: Array<[string, number]> = [
   ['Y', 1000 * 60 * 60 * 24 * 365], // years
@@ -19,7 +20,13 @@ const CountdownTimeUnits: Array<[string, number]> = [
       <view-code name="more-than-24-hours"></view-code>
     </div>
     <div class="card-body">
-      <countdown [config]="config"></countdown>
+      <countdown #cd [config]="config"></countdown>
+      <div>
+        <button (click)="cd.pause()" class="btn btn-link btn-sm">pause</button>
+        <button (click)="cd.resume()" class="btn btn-link btn-sm">resume</button>
+        <button (click)="cd.stop()" class="btn btn-link btn-sm">stop</button>
+        <button (click)="cd.restart()" class="btn btn-link btn-sm">restart</button>
+      </div>
     </div>
   `,
   host: {
@@ -27,10 +34,13 @@ const CountdownTimeUnits: Array<[string, number]> = [
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CountdownComponent, ViewCodeComponent],
 })
 export class MoreThan24HoursComponent {
   config: CountdownConfig = {
-    leftTime: 60 * 60 * 25,
+    leftTime: 60 * 60 * 24 + 3,
+    format: 'DD HH:mm:ss',
     formatDate: ({ date, formatStr }) => {
       let duration = Number(date || 0);
 
@@ -39,6 +49,10 @@ export class MoreThan24HoursComponent {
           const v = Math.floor(duration / unit);
           duration -= v * unit;
           return current.replace(new RegExp(`${name}+`, 'g'), (match: string) => {
+            // When days is empty
+            if (name === 'D' && v <= 0) {
+              return '';
+            }
             return v.toString().padStart(match.length, '0');
           });
         }

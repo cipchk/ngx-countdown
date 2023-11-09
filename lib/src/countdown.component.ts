@@ -20,7 +20,7 @@ import {
 import { CountdownConfig, CountdownStatus, CountdownEvent, CountdownEventAction, CountdownItem } from './interfaces';
 import { CountdownTimer } from './countdown.timer';
 import { CountdownGlobalConfig } from './countdown.config';
-import { CommonModule } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'countdown',
@@ -28,12 +28,12 @@ import { CommonModule } from '@angular/common';
     <ng-container *ngIf="!render">
       <span [innerHTML]="i.text"></span>
     </ng-container>
-    <ng-container *ngTemplateOutlet="render; context: { $implicit: i }"></ng-container>
+    <ng-container *ngTemplateOutlet="render!; context: { $implicit: i }"></ng-container>
   `,
   host: { '[class.count-down]': 'true' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [NgIf, NgTemplateOutlet],
   providers: [CountdownTimer],
   standalone: true,
 })
@@ -56,7 +56,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   get config(): CountdownConfig {
     return this._config;
   }
-  @Input() render!: TemplateRef<{ $implicit: CountdownItem }>;
+  @Input() render?: TemplateRef<{ $implicit: CountdownItem }>;
   @Output() readonly event = new EventEmitter<CountdownEvent>();
 
   constructor(
@@ -131,7 +131,6 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
       ...defCog,
       ...this.config,
     });
-    // tslint:disable-next-line: no-bitwise
     const frq = (this.frequency = ~config.format!.indexOf('S') ? 100 : 1000);
     this.status = config.demand ? CountdownStatus.pause : CountdownStatus.ing;
 

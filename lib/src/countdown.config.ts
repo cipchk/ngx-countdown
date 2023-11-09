@@ -1,4 +1,3 @@
-// tslint:disable: no-inferrable-types
 import { Injectable, Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { CountdownFormatFn, CountdownConfig } from './interfaces';
@@ -17,5 +16,5 @@ export class CountdownGlobalConfig implements CountdownConfig {
 
   formatDate?: CountdownFormatFn = ({ date, formatStr, timezone }) => {
     return formatDate(new Date(date), formatStr, this.locale, timezone || this.timezone || '+0000');
-  }
+  };
 }

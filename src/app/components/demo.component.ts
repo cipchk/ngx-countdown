@@ -1,4 +1,17 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { BasicComponent } from './basic.component';
+import { CustomFormatComponent } from './custom-format.component';
+import { AccuracyComponent } from './accuracy.component';
+import { NotifyComponent } from './notify.component';
+import { TimestampComponent } from './timestamp.component';
+import { CustomFormatDateComponent } from './custom-format-date.component';
+import { DemandComponent } from './demand.component';
+import { ActionsComponent } from './actions.component';
+import { DatefnsComponent } from './date-fns.component';
+import { PrettyTextComponent } from './pretty-text.component';
+import { MoreThan24HoursComponent } from './more-than-24-hours.component';
+import { OnlySecondsComponent } from './only-seconds.component';
+import { KeepingWhenRefreshComponent } from './keeping-when-refresh.component';
 
 @Component({
   selector: 'demo',
@@ -18,5 +31,21 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     <div class="col-sm-4 mb-3"><demo-keeping-when-refresh></demo-keeping-when-refresh></div>
   </div> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    BasicComponent,
+    CustomFormatComponent,
+    AccuracyComponent,
+    NotifyComponent,
+    TimestampComponent,
+    CustomFormatDateComponent,
+    DemandComponent,
+    ActionsComponent,
+    DatefnsComponent,
+    PrettyTextComponent,
+    MoreThan24HoursComponent,
+    OnlySecondsComponent,
+    KeepingWhenRefreshComponent,
+  ],
 })
 export class DemoComponent {}

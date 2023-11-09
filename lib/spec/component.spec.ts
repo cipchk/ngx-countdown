@@ -77,6 +77,31 @@ describe('Component: ngx-countdown', () => {
       expect(context.comp.i.text).toBe(`0`);
       tick(2000);
     }));
+    it('Support fractional seconds', fakeAsync(() => {
+      context.config = { leftTime: 2, format: 'S' };
+      fixture.detectChanges();
+      tick(250);
+      fixture.detectChanges();
+      expect(context.comp.i.value).toBeGreaterThan(1001);
+      tick(2000);
+    }));
+    it('Pretty text', fakeAsync(() => {
+      context.config = { leftTime: 2, prettyText: jasmine.createSpy() };
+      fixture.detectChanges();
+      tick(250);
+      fixture.detectChanges();
+      expect(context.config.prettyText).toHaveBeenCalled();
+      tick(2000);
+    }));
+    describe('#stopTime', () => {
+      it('should be working', fakeAsync(() => {
+        context.config = { stopTime: new Date().getTime() + 1000 * 2 };
+        fixture.detectChanges();
+        tick(1001);
+        expect(context.comp.left).toBe(1000);
+        tick(3000);
+      }));
+    });
   });
 
   describe('[actions]', () => {

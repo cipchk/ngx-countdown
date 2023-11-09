@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+import { ViewCodeComponent } from './view-code.component';
 
 @Component({
   selector: 'demo-pretty-text',
@@ -36,6 +37,8 @@ import { CountdownConfig } from 'ngx-countdown';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CountdownComponent, ViewCodeComponent],
 })
 export class PrettyTextComponent {
   config: CountdownConfig = {

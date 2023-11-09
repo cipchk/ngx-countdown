@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 import { format } from 'date-fns';
+import { ViewCodeComponent } from './view-code.component';
 
 @Component({
   selector: 'demo-date-fns',
@@ -18,6 +19,8 @@ import { format } from 'date-fns';
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CountdownComponent, ViewCodeComponent],
 })
 export class DatefnsComponent {
   config: CountdownConfig = {

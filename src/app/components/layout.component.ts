@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
+
 @Component({
   selector: 'demo-layout',
   template: `
@@ -26,14 +28,13 @@ import { Component } from '@angular/core';
           <li class="nav-item">
             <a class="nav-link" routerLink="/nothing">Performance</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/standalone">Standalone</a>
-          </li>
         </ul>
       </div>
     </nav>
     <p class="mt-3 mb-3">Simple, easy and performance countdown for angular</p>
-    <router-outlet></router-outlet>
+    <router-outlet />
   `,
+  standalone: true,
+  imports: [RouterOutlet, RouterLink],
 })
 export class LayoutComponent {}

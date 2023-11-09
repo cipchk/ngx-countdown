@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+import { ViewCodeComponent } from './view-code.component';
 
 @Component({
   selector: 'demo-timestamp',
@@ -21,6 +22,8 @@ import { CountdownConfig } from 'ngx-countdown';
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CountdownComponent, ViewCodeComponent],
 })
 export class TimestampComponent {
   config: CountdownConfig = { stopTime: new Date().getTime() + 1000 * 30 };
