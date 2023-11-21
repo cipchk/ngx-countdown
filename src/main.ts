@@ -3,16 +3,8 @@ import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { ROUTERS } from './app/router';
-import { CountdownConfig, CountdownGlobalConfig } from 'ngx-countdown';
-
-export function countdownConfigFactory(): CountdownConfig {
-  return {};
-}
+import { provideCountdown } from 'ngx-countdown';
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideHttpClient(),
-    provideRouter(ROUTERS, withHashLocation()),
-    { provide: CountdownGlobalConfig, useFactory: countdownConfigFactory },
-  ],
+  providers: [provideHttpClient(), provideRouter(ROUTERS, withHashLocation()), provideCountdown()],
 }).catch((err) => console.error(err));

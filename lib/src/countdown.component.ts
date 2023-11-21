@@ -15,12 +15,13 @@ import {
   ChangeDetectorRef,
   TemplateRef,
   NgZone,
+  Optional,
 } from '@angular/core';
 
 import { CountdownConfig, CountdownStatus, CountdownEvent, CountdownEventAction, CountdownItem } from './interfaces';
 import { CountdownTimer } from './countdown.timer';
-import { CountdownGlobalConfig } from './countdown.config';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgIf, NgTemplateOutlet, formatDate } from '@angular/common';
+import { COUNTDOWN_CONFIG } from './provide';
 
 @Component({
   selector: 'countdown',
@@ -63,9 +64,9 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     private timer: CountdownTimer,
-    private defCog: CountdownGlobalConfig,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
+    @Optional() @Inject(COUNTDOWN_CONFIG) private defCog?: CountdownConfig,
   ) {}
 
   /**
@@ -126,10 +127,15 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private init(): void {
-    const { locale, defCog } = this;
     const config = (this.config = {
-      ...new CountdownGlobalConfig(locale),
-      ...defCog,
+      demand: false,
+      leftTime: 0,
+      format: 'HH:mm:ss',
+      timezone: '+0000',
+      formatDate: ({ date, formatStr, timezone }) => {
+        return formatDate(new Date(date), formatStr, this.locale, timezone || '+0000');
+      },
+      ...this.defCog,
       ...this.config,
     });
     const frq = (this.frequency = ~config.format!.indexOf('S') ? 100 : 1000);

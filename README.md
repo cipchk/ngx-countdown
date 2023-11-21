@@ -100,17 +100,9 @@ export class App
 **Global Config**
 
 ```ts
-function countdownConfigFactory(): CountdownConfig {
-  return { format: `mm:ss` };
-}
-
-@NgModule({
-  imports: [ CountdownModule ],
-  providers: [
-    { provide: CountdownGlobalConfig, useFactory: countdownConfigFactory }
-  ],
-})
-export class AppDemoModule {}
+bootstrapApplication(AppComponent, {
+  providers: [provideCountdown({ format: `mm:ss` })],
+}).catch((err) => console.error(err));
 ```
 
 ## Troubleshooting
