@@ -35,7 +35,7 @@ import { COUNTDOWN_CONFIG } from './provide';
   host: { '[class.count-down]': 'true' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgTemplateOutlet],
+  imports: [NgTemplateOutlet],
   providers: [CountdownTimer],
   standalone: true,
 })
