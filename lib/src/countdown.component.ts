@@ -20,7 +20,7 @@ import {
 
 import { CountdownConfig, CountdownStatus, CountdownEvent, CountdownEventAction, CountdownItem } from './interfaces';
 import { CountdownTimer } from './countdown.timer';
-import { NgIf, NgTemplateOutlet, formatDate } from '@angular/common';
+import { NgTemplateOutlet, formatDate } from '@angular/common';
 import { COUNTDOWN_CONFIG } from './provide';
 
 @Component({
@@ -33,6 +33,13 @@ import { COUNTDOWN_CONFIG } from './provide';
     }
   `,
   host: { '[class.count-down]': 'true' },
+  styles: [
+    `
+      .count-down {
+        font-variant-numeric: tabular-nums;
+      }
+    `,
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
