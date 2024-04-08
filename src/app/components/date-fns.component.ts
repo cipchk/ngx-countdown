@@ -24,7 +24,7 @@ import { ViewCodeComponent } from './view-code.component';
 })
 export class DatefnsComponent {
   config: CountdownConfig = {
-    leftTime: 60 * 60 * 24 * 365 * (2050 - 1970),
+    leftTime: 60 * 60 * 48 * 365 * (2050 - 1970),
     format: 'yyyy-MM-dd E HH:mm:ss a',
     formatDate: ({ date, formatStr }) => format(date, formatStr),
   };
