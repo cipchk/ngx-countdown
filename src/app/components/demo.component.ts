@@ -31,7 +31,6 @@ import { KeepingWhenRefreshComponent } from './keeping-when-refresh.component';
     <div class="col-sm-4 mb-3"><demo-keeping-when-refresh></demo-keeping-when-refresh></div>
   </div> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     BasicComponent,
     CustomFormatComponent,

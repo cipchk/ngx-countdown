@@ -21,7 +21,6 @@ const DEFAULT = 50;
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CountdownComponent, ViewCodeComponent],
 })
 export class KeepingWhenRefreshComponent implements OnInit {

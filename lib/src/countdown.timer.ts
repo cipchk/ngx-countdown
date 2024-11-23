@@ -1,13 +1,12 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 
 @Injectable()
 export class CountdownTimer {
+  private ngZone = inject(NgZone);
   private fns: Array<((count: number) => number | void) | number> = [];
   private commands: Array<() => void> = [];
   private nextTime = 0;
   private ing = false;
-
-  constructor(private ngZone: NgZone) {}
 
   start(): void {
     if (this.ing === true) {

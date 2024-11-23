@@ -10,12 +10,11 @@ import {
   SimpleChange,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  Inject,
   LOCALE_ID,
   ChangeDetectorRef,
   TemplateRef,
   NgZone,
-  Optional,
+  inject,
 } from '@angular/core';
 
 import { CountdownConfig, CountdownStatus, CountdownEvent, CountdownEventAction, CountdownItem } from './interfaces';
@@ -44,9 +43,14 @@ import { COUNTDOWN_CONFIG } from './provide';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
   providers: [CountdownTimer],
-  standalone: true,
 })
 export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
+  private locale = inject(LOCALE_ID);
+  private timer = inject(CountdownTimer);
+  private cdr = inject(ChangeDetectorRef);
+  private ngZone = inject(NgZone);
+  private defCog = inject(COUNTDOWN_CONFIG, { optional: true });
+
   private frequency = 1000;
   private _notify: { [key: number]: boolean } = {};
   private status: CountdownStatus = CountdownStatus.ing;
@@ -67,14 +71,6 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   }
   @Input() render?: TemplateRef<{ $implicit: CountdownItem }>;
   @Output() readonly event = new EventEmitter<CountdownEvent>();
-
-  constructor(
-    @Inject(LOCALE_ID) private locale: string,
-    private timer: CountdownTimer,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
-    @Optional() @Inject(COUNTDOWN_CONFIG) private defCog?: CountdownConfig,
-  ) {}
 
   /**
    * Start countdown, you must manually call when `demand: false`

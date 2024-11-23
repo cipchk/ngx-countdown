@@ -1,7 +1,6 @@
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { CountdownModule } from '../src/countdown.module';
 import { CountdownConfig, CountdownEvent, CountdownStatus } from '../src/interfaces';
 import { CountdownComponent } from '../src/countdown.component';
 
@@ -13,8 +12,7 @@ describe('Component: ngx-countdown', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestNGComponent],
-      imports: [CountdownModule],
+      imports: [TestNGComponent],
     });
     fixture = TestBed.createComponent(TestNGComponent);
     context = fixture.componentInstance;
@@ -236,6 +234,7 @@ describe('Component: ngx-countdown', () => {
 
 @Component({
   template: `<countdown #comp [config]="config" (event)="handleEvent($event)" />`,
+  imports: [CountdownComponent],
 })
 class TestNGComponent {
   @ViewChild('comp', { static: false }) comp!: CountdownComponent;

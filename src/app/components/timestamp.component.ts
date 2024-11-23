@@ -22,7 +22,6 @@ import { ViewCodeComponent } from './view-code.component';
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CountdownComponent, ViewCodeComponent],
 })
 export class TimestampComponent {

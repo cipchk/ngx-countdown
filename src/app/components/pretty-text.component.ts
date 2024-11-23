@@ -37,7 +37,6 @@ import { ViewCodeComponent } from './view-code.component';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CountdownComponent, ViewCodeComponent],
 })
 export class PrettyTextComponent {

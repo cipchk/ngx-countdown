@@ -60,7 +60,6 @@ this.countdown.begin();
 ```ts
 @Component({
   template: `<countdown />`,
-  standalone: true,
   imports: [CountdownComponent],
 })
 export class App
