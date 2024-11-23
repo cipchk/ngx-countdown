@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { CountdownComponent } from 'ngx-countdown';
 
@@ -11,8 +10,7 @@ import { CountdownComponent } from 'ngx-countdown';
     </div>
     }
   </div> `,
-  standalone: true,
-  imports: [NgFor, CountdownComponent],
+  imports: [CountdownComponent],
 })
 export class ALotComponent {
   arr = new Array(1000).fill({});

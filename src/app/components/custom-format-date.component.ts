@@ -21,7 +21,6 @@ const MINIUES = 1000 * 60;
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CountdownComponent, ViewCodeComponent],
 })
 export class CustomFormatDateComponent {

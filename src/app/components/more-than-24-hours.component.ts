@@ -34,7 +34,6 @@ const CountdownTimeUnits: Array<[string, number]> = [
     '[class.text-center]': `true`,
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CountdownComponent, ViewCodeComponent],
 })
 export class MoreThan24HoursComponent {

@@ -34,7 +34,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     <p class="mt-3 mb-3">Simple, easy and performance countdown for angular</p>
     <router-outlet />
   `,
-  standalone: true,
   imports: [RouterOutlet, RouterLink],
 })
 export class LayoutComponent {}

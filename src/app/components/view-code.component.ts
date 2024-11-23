@@ -6,7 +6,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     (<a href="https://github.com/cipchk/ngx-countdown/blob/master/src/app/components/{{ name }}.component.ts" target="_blank">View Code</a>)
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
 export class ViewCodeComponent {
   @Input() name = '';
