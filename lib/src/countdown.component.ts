@@ -52,7 +52,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   private defCog = inject(COUNTDOWN_CONFIG, { optional: true });
 
   private frequency = 1000;
-  private _notify: { [key: number]: boolean } = {};
+  private _notify: Record<number, boolean> = {};
   private status: CountdownStatus = CountdownStatus.ing;
   private isDestroy = false;
   private _config!: CountdownConfig;
@@ -148,7 +148,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
 
     // bind reflow to me
     const _reflow = this.reflow;
-    this.reflow = (count: number = 0, force: boolean = false) => _reflow.apply(this, [count, force]);
+    this.reflow = (count = 0, force = false) => _reflow.apply(this, [count, force]);
 
     if (Array.isArray(config.notify)) {
       config.notify.forEach((time: number) => {
@@ -175,7 +175,7 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * 更新时钟
    */
-  private reflow(count: number = 0, force: boolean = false): void {
+  private reflow(count = 0, force = false): void {
     if (this.isDestroy) {
       return;
     }

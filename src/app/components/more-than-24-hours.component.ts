@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 import { ViewCodeComponent } from './view-code.component';
 
-const CountdownTimeUnits: Array<[string, number]> = [
+const CountdownTimeUnits: [string, number][] = [
   ['Y', 1000 * 60 * 60 * 24 * 365], // years
   ['M', 1000 * 60 * 60 * 24 * 30], // months
   ['D', 1000 * 60 * 60 * 24], // days

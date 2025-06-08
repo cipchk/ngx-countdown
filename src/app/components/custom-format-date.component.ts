@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, LOCALE_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, LOCALE_ID } from '@angular/core';
 import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 import { formatDate } from '@angular/common';
 import { ViewCodeComponent } from './view-code.component';
@@ -24,7 +24,7 @@ const MINIUES = 1000 * 60;
   imports: [CountdownComponent, ViewCodeComponent],
 })
 export class CustomFormatDateComponent {
-  constructor(@Inject(LOCALE_ID) private locale: string) {}
+  private locale = inject(LOCALE_ID);
 
   config: CountdownConfig = {
     leftTime: 65,

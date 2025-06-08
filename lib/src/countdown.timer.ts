@@ -3,8 +3,8 @@ import { inject, Injectable, NgZone } from '@angular/core';
 @Injectable()
 export class CountdownTimer {
   private ngZone = inject(NgZone);
-  private fns: Array<((count: number) => number | void) | number> = [];
-  private commands: Array<() => void> = [];
+  private fns: (((count: number) => number | void) | number)[] = [];
+  private commands: (() => void)[] = [];
   private nextTime = 0;
   private ing = false;
 

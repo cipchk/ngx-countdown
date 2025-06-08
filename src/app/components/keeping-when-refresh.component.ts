@@ -27,7 +27,7 @@ export class KeepingWhenRefreshComponent implements OnInit {
   config: CountdownConfig = { leftTime: DEFAULT, notify: 0 };
 
   ngOnInit(): void {
-    let value = +localStorage.getItem(KEY)!!;
+    let value = +localStorage.getItem(KEY)!;
     if (value <= 0 || isNaN(value)) value = DEFAULT;
     this.config = { ...this.config, leftTime: value };
   }
