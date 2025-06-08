@@ -44,6 +44,8 @@ Thumbs.db
 /publish
 /yarn.lock
 
+/.angular/cache
+
 # Yarn
 yarn.lock
 yarn-error.log

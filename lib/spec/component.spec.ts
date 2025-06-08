@@ -241,5 +241,5 @@ class TestNGComponent {
 
   config: CountdownConfig = {};
 
-  handleEvent(_e: CountdownEvent): void {}
+  handleEvent(): void { }
 }
