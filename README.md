@@ -19,23 +19,10 @@ Simple, easy and performance countdown for angular
 npm install ngx-countdown --save
 ```
 
-import `CountdownModule`。
-
-```typescript
-import { CountdownModule } from 'ngx-countdown';
-
-@NgModule({
-  imports: [ BrowserModule, CountdownModule ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-```
-
 ### 2、Template
 
 ```html
-<countdown #cd [config]="config" (event)="handleEvent($event)" />
+<countdown [config]="config" (event)="handleEvent($event)" />
 ```
 
 **Method**
@@ -51,8 +38,8 @@ export class AppModule { }
 **How call component methods**
 
 ```ts
-@ViewChild('cd', { static: false }) private countdown: CountdownComponent;
-this.countdown.begin();
+comp = viewChild(CountdownComponent);
+this.comp()?.begin();
 ```
 
 ### Standalone
@@ -62,7 +49,7 @@ this.countdown.begin();
   template: `<countdown />`,
   imports: [CountdownComponent],
 })
-export class App
+export class App {}
 ```
 
 ## API
