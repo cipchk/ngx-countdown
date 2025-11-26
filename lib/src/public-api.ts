@@ -1,5 +1,4 @@
 export * from './interfaces';
-export * from './countdown.component';
-export * from './countdown.timer';
-export * from './countdown.module';
+export * from './countdown';
+export * from './timer';
 export * from './provide';

@@ -6,4 +6,4 @@ import { CountdownComponent } from 'ngx-countdown';
   template: `<countdown [config]="{ leftTime: 86403, format: 'D 天 H 时 m 分 s 秒 S' }" />`,
   imports: [CountdownComponent],
 })
-export class TestComponent {}
+export class Test { }

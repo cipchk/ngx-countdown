@@ -9,6 +9,7 @@ const libPackagePath = path.resolve(root, `./lib/package.json`);
 const rootPackageJson = require(path.resolve(root, `./package.json`));
 const libPackageJson = require(libPackagePath);
 [
+  'name',
   'version',
   'description',
   'keywords',
@@ -23,7 +24,7 @@ fs.writeJsonSync(libPackagePath, libPackageJson, { spaces: 2 });
 ngPackage
   .ngPackagr()
   .forProject(path.resolve(root, `./lib/ng-package.json`))
-  .withTsConfig(path.resolve(root, './lib/tsconfig.lib.json'))
+  .withTsConfig(path.resolve(root, './lib/tsconfig.lib.prod.json'))
   .build()
   .then(() =>
     fs.copyFileSync(

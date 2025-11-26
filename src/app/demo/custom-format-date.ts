@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, LOCALE_ID } from '@angular/core';
 import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 import { formatDate } from '@angular/common';
-import { ViewCodeComponent } from './view-code.component';
+import { ViewCode } from './view-code';
 
 const MINIUES = 1000 * 60;
 
@@ -17,16 +17,15 @@ const MINIUES = 1000 * 60;
     </div>
   `,
   host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
+    class: 'card text-center',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCodeComponent],
+  imports: [CountdownComponent, ViewCode],
 })
-export class CustomFormatDateComponent {
-  private locale = inject(LOCALE_ID);
+export class CustomFormatDate {
+  private readonly locale = inject(LOCALE_ID);
 
-  config: CountdownConfig = {
+  protected config: CountdownConfig = {
     leftTime: 65,
     formatDate: ({ date, formatStr, timezone }) => {
       let f = formatStr;

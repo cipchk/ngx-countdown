@@ -1,19 +1,17 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "alwaysStrict": true,
+    "outDir": "../out-tsc/lib",
+    "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
     "inlineSources": true,
-    "declaration": true,
-    "strictFunctionTypes": true,
-    "stripInternal": true,
-    "declarationMap": false
+    "types": []
   },
-  "files": ["./src/countdown.module.ts"],
   "include": [
     "**/*.ts"
   ],
-  "angularCompilerOptions": {
-    "compilationMode": "partial"
-  }
+  "exclude": [
+    "**/*.spec.ts"
+  ]
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
-import { ViewCodeComponent } from './view-code.component';
+import { ViewCode } from './view-code';
 
 @Component({
   selector: 'demo-timestamp',
@@ -18,16 +18,15 @@ import { ViewCodeComponent } from './view-code.component';
     </div>
   `,
   host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
+    class: 'card text-center',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCodeComponent],
+  imports: [CountdownComponent, ViewCode],
 })
-export class TimestampComponent {
-  config: CountdownConfig = { stopTime: new Date().getTime() + 1000 * 30 };
+export class Timestamp {
+  protected config: CountdownConfig = { stopTime: new Date().getTime() + 1000 * 30 };
 
-  resetStop() {
+  protected resetStop() {
     this.config = { stopTime: new Date().getTime() + 1000 * 30 };
   }
 }

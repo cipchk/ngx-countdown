@@ -1,22 +1,22 @@
 import { Route } from '@angular/router';
-import { LayoutComponent } from './components/layout.component';
-import { DemoComponent } from './components/demo.component';
-import { ALotComponent } from './components/alot.component';
-import { NothingComponent } from './components/nothing.component';
-import { TestComponent } from './components/test.component';
+import { Layout } from './demo/layout';
+import { Demo } from './demo/demo';
+import { ALot } from './demo/alot';
+import { Nothing } from './demo/nothing';
+import { Test } from './demo/test';
 
 export const ROUTERS: Route[] = [
   {
     path: '',
-    component: LayoutComponent,
+    component: Layout,
     children: [
-      { path: '', component: DemoComponent },
-      { path: 'alot', component: ALotComponent },
-      { path: 'nothing', component: NothingComponent },
+      { path: '', component: Demo },
+      { path: 'alot', component: ALot },
+      { path: 'nothing', component: Nothing },
     ],
   },
   {
     path: 'test',
-    component: TestComponent,
+    component: Test,
   },
 ];

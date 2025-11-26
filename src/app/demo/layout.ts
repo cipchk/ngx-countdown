@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -34,6 +34,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     <p class="mt-3 mb-3">Simple, easy and performance countdown for angular</p>
     <router-outlet />
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, RouterLink],
 })
-export class LayoutComponent {}
+export class Layout { }

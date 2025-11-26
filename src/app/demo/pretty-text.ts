@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
-import { ViewCodeComponent } from './view-code.component';
+import { ViewCode } from './view-code';
 
 @Component({
   selector: 'demo-pretty-text',
@@ -14,8 +14,7 @@ import { ViewCodeComponent } from './view-code.component';
     </div>
   `,
   host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
+    class: 'card text-center',
   },
   styles: [
     `
@@ -37,10 +36,10 @@ import { ViewCodeComponent } from './view-code.component';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCodeComponent],
+  imports: [CountdownComponent, ViewCode],
 })
-export class PrettyTextComponent {
-  config: CountdownConfig = {
+export class PrettyText {
+  protected config: CountdownConfig = {
     leftTime: 60,
     format: 'HH:mm:ss',
     prettyText: (text) => {

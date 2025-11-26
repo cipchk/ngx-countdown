@@ -1,6 +1,6 @@
 {
   "name": "ngx-countdown",
-  "version": "20.0.0",
+  "version": "21.0.0",
   "description": "Simple, easy and performance countdown for angular",
   "keywords": [
     "ngx-countdown",
@@ -23,43 +23,39 @@
   "homepage": "https://cipchk.github.io/ngx-countdown/",
   "scripts": {
     "lint": "ng lint",
-    "test": "ng t --no-progress --code-coverage --no-watch --browsers=ChromeHeadless",
+    "test": "ng t --coverage --watch false",
     "build": "node scripts/build.js",
     "release": "npm run build && cd publish && npm publish --access public",
     "release:next": "npm run build && cd publish && npm publish --access public --tag next"
   },
   "dependencies": {
-    "@angular/common": "^20.0.0",
-    "@angular/compiler": "^20.0.0",
-    "@angular/core": "^20.0.0",
-    "@angular/forms": "^20.0.0",
-    "@angular/platform-browser": "^20.0.0",
-    "@angular/router": "^20.0.0",
-    "bootstrap": "^5.3.3",
-    "date-fns": "^2.30.0",
-    "ngx-highlight-js": "^20.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/router": "^21.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.15.0"
+    "bootstrap": "^5.3.8",
+    "date-fns": "^4.1.0",
+    "ngx-highlight-js": "^21.0.0"
   },
   "devDependencies": {
-    "@angular-eslint/builder": "20.0.0",
-    "@angular/build": "^20.0.0",
-    "@angular/cli": "^20.0.0",
-    "@angular/compiler-cli": "^20.0.0",
-    "@eslint/js": "^9.28.0",
-    "@types/jasmine": "~5.1.0",
-    "angular-eslint": "20.0.0",
-    "eslint": "^9.28.0",
-    "jasmine-core": "~5.7.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
-    "ng-packagr": "^20.0.0",
-    "typescript": "~5.8.2",
-    "typescript-eslint": "^8.33.1"
+    "@angular-eslint/builder": "21.0.1",
+    "@angular/build": "^21.0.0",
+    "@angular/cli": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
+    "@eslint/js": "^9.39.1",
+    "angular-eslint": "^21.0.1",
+    "eslint": "^9.39.1",
+    "jsdom": "^27.1.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.48.0",
+    "vitest": "^4.0.13",
+    "@vitest/coverage-v8": "^4.0.13",
+    "ng-packagr": "^21.0.0",
+    "fs-extra": "^11.3.2"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "pnpm@10.23.0"
 }

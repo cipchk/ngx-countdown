@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
-import { ViewCodeComponent } from './view-code.component';
+import { ViewCode } from './view-code';
 
 @Component({
   selector: 'demo-notify',
@@ -19,17 +19,16 @@ import { ViewCodeComponent } from './view-code.component';
     <div class="card-footer">{{ notify }}</div>
   `,
   host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
+    class: 'card text-center',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCodeComponent],
+  imports: [CountdownComponent, ViewCode],
 })
-export class NotifyComponent {
-  config: CountdownConfig = { leftTime: 10, notify: [2, 5] };
-  notify = '';
+export class Notify {
+  protected config: CountdownConfig = { leftTime: 10, notify: [2, 5] };
+  protected notify = '';
 
-  handleEvent(e: CountdownEvent) {
+  protected handleEvent(e: CountdownEvent) {
     this.notify = e.action.toUpperCase();
     if (e.action === 'notify') {
       this.notify += ` - ${e.left} ms`;

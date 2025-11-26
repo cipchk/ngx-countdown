@@ -2,8 +2,52 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "cli": {
+    "packageManager": "npm",
+    "schematicCollections": [
+      "angular-eslint"
+    ]
+  },
   "projects": {
     "ngx-countdown": {
+      "projectType": "library",
+      "root": "lib",
+      "sourceRoot": "lib",
+      "prefix": "",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "lib/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "lib/**/*.ts",
+              "lib/**/*.html",
+              "src/**/*.ts",
+              "src/**/*.html"
+            ],
+            "eslintConfig": "eslint.config.js"
+          }
+        }
+      }
+    },
+    "site": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -14,7 +58,7 @@
         }
       },
       "root": "",
-      "sourceRoot": "",
+      "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
@@ -22,9 +66,6 @@
           "options": {
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -32,9 +73,7 @@
                 "input": "public"
               }
             ],
-            "inlineStyleLanguage": "less",
-            "styles": ["src/styles.less"],
-            "scripts": []
+            "inlineStyleLanguage": "less"
           },
           "configurations": {
             "production": {
@@ -71,31 +110,6 @@
             }
           },
           "defaultConfiguration": "development"
-        },
-        "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "karmaConfig": "./karma.conf.js",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "include": [
-              "lib/**/*.spec.ts"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html",
-              "lib/**/*.ts",
-              "lib/**/*.html"
-            ]
-          }
         }
       }
     }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
-import { ViewCodeComponent } from './view-code.component';
+import { ViewCode } from './view-code';
 
 const CountdownTimeUnits: [string, number][] = [
   ['Y', 1000 * 60 * 60 * 24 * 365], // years
@@ -30,14 +30,13 @@ const CountdownTimeUnits: [string, number][] = [
     </div>
   `,
   host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
+    class: 'card text-center',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCodeComponent],
+  imports: [CountdownComponent, ViewCode],
 })
-export class MoreThan24HoursComponent {
-  config: CountdownConfig = {
+export class MoreThan24Hours {
+  protected config: CountdownConfig = {
     leftTime: 60 * 60 * 24 + 3,
     format: 'DD HH:mm:ss',
     formatDate: ({ date, formatStr }) => {

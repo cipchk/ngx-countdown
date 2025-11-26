@@ -9,13 +9,22 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
 
-      - uses: borales/actions-yarn@v4
+      - uses: pnpm/action-setup@v4
         with:
-          cmd: install
+          run_install: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: run
         run: |
-          yarn run build
+          pnpm run build
 
   test:
     runs-on: ubuntu-latest
@@ -23,20 +32,28 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
 
-      - uses: borales/actions-yarn@v4
-        name: install
+      - uses: pnpm/action-setup@v4
         with:
-          cmd: install
+          run_install: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: run
-        run: yarn run test
+        run: pnpm run test
 
       - uses: codecov/codecov-action@v5
         name: upload
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: unittests
-          files: ./coverage/cobertura-coverage.xml
+          files: ./coverage/ngx-countdown/clover.xml
           fail_ci_if_error: true
           verbose: true
 
@@ -46,13 +63,21 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
 
-      - uses: borales/actions-yarn@v4
+      - uses: pnpm/action-setup@v4
         with:
-          cmd: install
+          run_install: false
 
-      - uses: borales/actions-yarn@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v6
         with:
-          cmd: lint
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: lint
+        run: pnpm run lint
 
   site:
     runs-on: ubuntu-latest
@@ -60,18 +85,27 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
 
-      - uses: borales/actions-yarn@v4
+      - uses: pnpm/action-setup@v4
         with:
-          cmd: install
+          run_install: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: build
         run: |
           node ./node_modules/@angular/cli/bin/ng build --base-href /ngx-countdown/
-          cp ./dist/ngx-countdown/browser/index.html ./dist/ngx-countdown/browser/404.html
-          ls ./dist/ngx-countdown/browser
+          cp ./dist/site/browser/index.html ./dist/site/browser/404.html
+          ls ./dist/site/browser
 
       - name: deploy-to-gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/ngx-countdown/browser
+          publish_dir: ./dist/site/browser

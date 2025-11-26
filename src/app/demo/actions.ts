@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
-import { ViewCodeComponent } from './view-code.component';
+import { ViewCode } from './view-code';
 
 @Component({
   selector: 'demo-actions',
@@ -21,14 +21,13 @@ import { ViewCodeComponent } from './view-code.component';
     </div>
   `,
   host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
+    class: 'card text-center',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCodeComponent],
+  imports: [CountdownComponent, ViewCode],
 })
-export class ActionsComponent {
-  config: CountdownConfig = {
+export class Actions {
+  protected config: CountdownConfig = {
     leftTime: 60,
     format: 'HH:mm:ss',
     prettyText: (text) => {
@@ -39,7 +38,7 @@ export class ActionsComponent {
     },
   };
 
-  handleEvent(e: CountdownEvent) {
+  protected handleEvent(e: CountdownEvent) {
     console.log('Actions', e);
   }
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
-import { ViewCodeComponent } from './view-code.component';
+import { ViewCode } from './view-code';
 
 const KEY = 'time';
 const DEFAULT = 50;
@@ -17,14 +17,13 @@ const DEFAULT = 50;
     </div>
   `,
   host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
+    class: 'card text-center',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCodeComponent],
+  imports: [CountdownComponent, ViewCode],
 })
-export class KeepingWhenRefreshComponent implements OnInit {
-  config: CountdownConfig = { leftTime: DEFAULT, notify: 0 };
+export class KeepingWhenRefresh implements OnInit {
+  protected config: CountdownConfig = { leftTime: DEFAULT, notify: 0 };
 
   ngOnInit(): void {
     let value = +localStorage.getItem(KEY)!;
@@ -32,7 +31,7 @@ export class KeepingWhenRefreshComponent implements OnInit {
     this.config = { ...this.config, leftTime: value };
   }
 
-  handleEvent(ev: CountdownEvent) {
+  protected handleEvent(ev: CountdownEvent) {
     if (ev.action === 'notify') {
       // Save current value
       localStorage.setItem(KEY, `${ev.left / 1000}`);

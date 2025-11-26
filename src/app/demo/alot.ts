@@ -12,6 +12,6 @@ import { CountdownComponent } from 'ngx-countdown';
   </div> `,
   imports: [CountdownComponent],
 })
-export class ALotComponent {
-  arr = new Array(1000).fill({});
+export class ALot {
+  protected arr = new Array(1000).fill({});
 }

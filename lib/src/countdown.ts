@@ -1,37 +1,33 @@
 import {
   Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
   OnDestroy,
-  Output,
-  EventEmitter,
-  OnInit,
-  SimpleChange,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   LOCALE_ID,
-  ChangeDetectorRef,
   TemplateRef,
-  NgZone,
   inject,
+  output,
+  input,
+  effect,
+  afterNextRender,
+  signal,
 } from '@angular/core';
 
 import { CountdownConfig, CountdownStatus, CountdownEvent, CountdownEventAction, CountdownItem } from './interfaces';
-import { CountdownTimer } from './countdown.timer';
+import { CountdownTimer } from './timer';
 import { NgTemplateOutlet, formatDate } from '@angular/common';
 import { COUNTDOWN_CONFIG } from './provide';
 
 @Component({
   selector: 'countdown',
   template: `
-    @if (render) {
-    <ng-container *ngTemplateOutlet="render; context: { $implicit: i }" />
+    @if (render()) {
+      <ng-container *ngTemplateOutlet="render(); context: { $implicit: i() }" />
     } @else {
-    <span [innerHTML]="i.text"></span>
+      <span [innerHTML]="i().text"></span>
     }
   `,
-  host: { '[class.count-down]': 'true' },
+  host: { class: 'count-down' },
   styles: [
     `
       .count-down {
@@ -44,33 +40,50 @@ import { COUNTDOWN_CONFIG } from './provide';
   imports: [NgTemplateOutlet],
   providers: [CountdownTimer],
 })
-export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
-  private locale = inject(LOCALE_ID);
-  private timer = inject(CountdownTimer);
-  private cdr = inject(ChangeDetectorRef);
-  private ngZone = inject(NgZone);
-  private defCog = inject(COUNTDOWN_CONFIG, { optional: true });
+export class CountdownComponent implements OnDestroy {
+  private readonly locale = inject(LOCALE_ID);
+  private readonly timer = inject(CountdownTimer);
+  private readonly defCog = inject(COUNTDOWN_CONFIG, { optional: true });
 
   private frequency = 1000;
-  private _notify: Record<number, boolean> = {};
+  private readonly _notify: Record<number, boolean> = {};
   private status: CountdownStatus = CountdownStatus.ing;
   private isDestroy = false;
-  private _config!: CountdownConfig;
-  i: CountdownItem = {};
-  left = 0;
+  private _config?: CountdownConfig;
+  private left = 0;
+  readonly i = signal<CountdownItem>({});
 
-  @Input({ required: true })
-  set config(i: CountdownConfig) {
-    if (i.notify != null && !Array.isArray(i.notify) && i.notify > 0) {
-      i.notify = [i.notify];
+  readonly config = input.required({
+    transform: (i: CountdownConfig) => {
+      if (i.notify != null && !Array.isArray(i.notify) && i.notify > 0) {
+        i.notify = [i.notify];
+      }
+      return i;
     }
-    this._config = i;
+  });
+  readonly render = input<TemplateRef<{ $implicit: CountdownItem }>>();
+  readonly event = output<CountdownEvent>();
+
+  constructor() {
+    afterNextRender(() => {
+      this.init();
+      if (!this._config?.demand) {
+        this.begin();
+      }
+    });
+
+    let cfgFirst = true;
+    effect(() => {
+      this.config();
+
+      if (cfgFirst) {
+        cfgFirst = false;
+        return;
+      }
+
+      this.restart();
+    })
   }
-  get config(): CountdownConfig {
-    return this._config;
-  }
-  @Input() render?: TemplateRef<{ $implicit: CountdownItem }>;
-  @Output() readonly event = new EventEmitter<CountdownEvent>();
 
   /**
    * Start countdown, you must manually call when `demand: false`
@@ -126,11 +139,11 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private callEvent(action: CountdownEventAction): void {
-    this.event.emit({ action, left: this.left, status: this.status, text: this.i.text! });
+    this.event.emit({ action, left: this.left, status: this.status, text: this.i().text! });
   }
 
   private init(): void {
-    const config = (this.config = {
+    const config: CountdownConfig = {
       demand: false,
       leftTime: 0,
       format: 'HH:mm:ss',
@@ -139,8 +152,9 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
         return formatDate(new Date(date), formatStr, this.locale, timezone || '+0000');
       },
       ...this.defCog,
-      ...this.config,
-    });
+      ...this.config(),
+    };
+    this._config = config;
     const frq = (this.frequency = ~config.format!.indexOf('S') ? 100 : 1000);
     this.status = config.demand ? CountdownStatus.pause : CountdownStatus.ing;
 
@@ -176,11 +190,11 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
    * 更新时钟
    */
   private reflow(count = 0, force = false): void {
-    if (this.isDestroy) {
+    if (this.isDestroy || this._config == null) {
       return;
     }
 
-    const { status, config, _notify } = this;
+    const { status, _notify } = this;
     if (!force && status !== CountdownStatus.ing) {
       return;
     }
@@ -189,27 +203,24 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     if (value < 1) {
       value = 0;
     }
-    this.i = {
+    const { formatDate, format, timezone, prettyText, notify } = this._config;
+    const item: CountdownItem = {
       value,
-      text: config.formatDate!({ date: value, formatStr: config.format!, timezone: config.timezone }),
+      text: formatDate!({ date: value, formatStr: format!, timezone: timezone }),
     };
-    if (typeof config.prettyText === 'function') {
-      this.i.text = config.prettyText(this.i.text!);
+    if (typeof prettyText === 'function') {
+      item.text = prettyText(item.text!);
     }
-    this.cdr.detectChanges();
+    this.i.set(item);
 
-    if (config.notify === 0 || _notify[value]) {
-      this.ngZone.run(() => {
-        this.callEvent('notify');
-      });
+    if (notify === 0 || _notify[value]) {
+      this.callEvent('notify');
     }
 
     if (value === 0) {
-      this.ngZone.run(() => {
-        this.status = CountdownStatus.done;
-        this.destroy();
-        this.callEvent('done');
-      });
+      this.status = CountdownStatus.done;
+      this.destroy();
+      this.callEvent('done');
     }
   }
 
@@ -217,9 +228,10 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
    * 获取倒计时剩余帧数
    */
   private getLeft(): void {
-    const { config, frequency } = this;
-    let left = config.leftTime! * 1000;
-    const end = config.stopTime;
+    const { frequency } = this;
+    const { leftTime, stopTime } = this._config!;
+    let left = leftTime! * 1000;
+    const end = stopTime;
 
     if (!left && end) {
       left = end - new Date().getTime();
@@ -228,21 +240,8 @@ export class CountdownComponent implements OnInit, OnChanges, OnDestroy {
     this.left = left - (left % frequency);
   }
 
-  ngOnInit(): void {
-    this.init();
-    if (!this.config.demand) {
-      this.begin();
-    }
-  }
-
   ngOnDestroy(): void {
     this.isDestroy = true;
     this.destroy();
-  }
-
-  ngOnChanges(changes: { [P in keyof this]?: SimpleChange } & SimpleChanges): void {
-    if (!changes.config!.firstChange) {
-      this.restart();
-    }
   }
 }

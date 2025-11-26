@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
-import { ViewCodeComponent } from './view-code.component';
+import { ViewCode } from './view-code';
 
 @Component({
   selector: 'demo-only-seconds',
@@ -14,14 +14,13 @@ import { ViewCodeComponent } from './view-code.component';
     </div>
   `,
   host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
+    class: 'card text-center',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCodeComponent],
+  imports: [CountdownComponent, ViewCode],
 })
-export class OnlySecondsComponent {
-  config: CountdownConfig = {
+export class OnlySeconds {
+  protected config: CountdownConfig = {
     leftTime: 60 * 3,
     formatDate: ({ date }) => `${date / 1000}`,
   };
