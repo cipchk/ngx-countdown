@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+
 import { ViewCode } from './view-code';
 
-const CountdownTimeUnits: [string, number][] = [
+const CountdownTimeUnits: Array<[string, number]> = [
   ['Y', 1000 * 60 * 60 * 24 * 365], // years
   ['M', 1000 * 60 * 60 * 24 * 30], // months
   ['D', 1000 * 60 * 60 * 24], // days
   ['H', 1000 * 60 * 60], // hours
   ['m', 1000 * 60], // minutes
   ['s', 1000], // seconds
-  ['S', 1], // million seconds
+  ['S', 1] // million seconds
 ];
 
 @Component({
@@ -30,10 +32,10 @@ const CountdownTimeUnits: [string, number][] = [
     </div>
   `,
   host: {
-    class: 'card text-center',
+    class: 'card text-center'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCode],
+  imports: [CountdownComponent, ViewCode]
 })
 export class MoreThan24Hours {
   protected config: CountdownConfig = {
@@ -56,6 +58,6 @@ export class MoreThan24Hours {
         }
         return current;
       }, formatStr);
-    },
+    }
   };
 }

@@ -1,0 +1,9 @@
+allowBuilds:
+  '@parcel/watcher': false
+  esbuild: false
+  lmdb: false
+  msgpackr-extract: false
+  unrs-resolver: false
+minimumReleaseAgeExclude:
+  - eslint-plugin-jsdoc@64.2.0
+  - ngx-highlight-js@22.0.0

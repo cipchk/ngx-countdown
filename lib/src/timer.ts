@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CountdownTimer {
-  private fns: (((count: number) => number | void) | number)[] = [];
-  private commands: (() => void)[] = [];
+  private fns: Array<((count: number) => number | void) | number> = [];
+  private commands: Array<() => void> = [];
   private nextTime = 0;
   private ing = false;
 
@@ -31,7 +31,7 @@ export class CountdownTimer {
       let frequency = this.fns[i + 1] as number;
 
       // 100/s
-      if (0 === frequency) {
+      if (frequency === 0) {
         (this.fns[i] as (count: number) => void)(count);
         // 1000/s
       } else {

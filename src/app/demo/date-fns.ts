@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+
 import { format } from 'date-fns';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+
 import { ViewCode } from './view-code';
 
 @Component({
@@ -15,15 +17,15 @@ import { ViewCode } from './view-code';
     </div>
   `,
   host: {
-    class: 'card text-center',
+    class: 'card text-center'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCode],
+  imports: [CountdownComponent, ViewCode]
 })
 export class Datefns {
   protected config: CountdownConfig = {
     leftTime: 60 * 60 * 48 * 365 * (2050 - 1970),
     format: 'yyyy-MM-dd E HH:mm:ss a',
-    formatDate: ({ date, formatStr }) => format(date, formatStr),
+    formatDate: ({ date, formatStr }) => format(date, formatStr)
   };
 }

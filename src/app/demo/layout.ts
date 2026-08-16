@@ -35,6 +35,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     <router-outlet />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink]
 })
-export class Layout { }
+export class Layout {}

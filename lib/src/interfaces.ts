@@ -10,7 +10,7 @@ export enum CountdownStatus {
   ing,
   pause,
   stop,
-  done,
+  done
 }
 
 export interface CountdownConfig {

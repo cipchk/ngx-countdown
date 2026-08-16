@@ -1,9 +1,10 @@
 import { Component, DebugElement, provideZonelessChangeDetection, signal, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CountdownConfig, CountdownEvent, CountdownStatus } from './interfaces';
-import { CountdownComponent } from './countdown';
 import { Mock } from 'vitest';
+
+import { CountdownComponent } from './countdown';
+import { CountdownConfig, CountdownEvent, CountdownStatus } from './interfaces';
 
 describe('Component: ngx-countdown', () => {
   let fixture: ComponentFixture<TestNGComponent>;
@@ -14,7 +15,7 @@ describe('Component: ngx-countdown', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [provideZonelessChangeDetection()],
-      imports: [TestNGComponent],
+      imports: [TestNGComponent]
     });
     fixture = TestBed.createComponent(TestNGComponent);
     vi.useFakeTimers();
@@ -213,11 +214,11 @@ describe('Component: ngx-countdown', () => {
 
 @Component({
   template: `<countdown [config]="config()" (event)="handleEvent($event)" />`,
-  imports: [CountdownComponent],
+  imports: [CountdownComponent]
 })
 class TestNGComponent {
   comp = viewChild(CountdownComponent);
   config = signal<CountdownConfig>({});
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  handleEvent(_: CountdownEvent): void { }
+
+  handleEvent(_: CountdownEvent): void {}
 }

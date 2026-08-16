@@ -1,17 +1,18 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+import { Accuracy } from './accuracy';
+import { Actions } from './actions';
 import { Basic } from './basic';
 import { CustomFormat } from './custom-format';
-import { Accuracy } from './accuracy';
-import { Notify } from './notify';
-import { Timestamp } from './timestamp';
 import { CustomFormatDate } from './custom-format-date';
-import { Demand } from './demand';
-import { Actions } from './actions';
 import { Datefns } from './date-fns';
-import { PrettyText } from './pretty-text';
-import { MoreThan24Hours } from './more-than-24-hours';
-import { OnlySeconds } from './only-seconds';
+import { Demand } from './demand';
 import { KeepingWhenRefresh } from './keeping-when-refresh';
+import { MoreThan24Hours } from './more-than-24-hours';
+import { Notify } from './notify';
+import { OnlySeconds } from './only-seconds';
+import { PrettyText } from './pretty-text';
+import { Timestamp } from './timestamp';
 
 @Component({
   selector: 'demo',
@@ -46,7 +47,7 @@ import { KeepingWhenRefresh } from './keeping-when-refresh';
     PrettyText,
     MoreThan24Hours,
     OnlySeconds,
-    KeepingWhenRefresh,
-  ],
+    KeepingWhenRefresh
+  ]
 })
-export class Demo { }
+export class Demo {}

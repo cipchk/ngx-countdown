@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { CountdownComponent } from 'ngx-countdown';
+
 import { ViewCode } from './view-code';
 
 @Component({
@@ -17,9 +19,9 @@ import { ViewCode } from './view-code';
     </div>
   `,
   host: {
-    class: 'card text-center',
+    class: 'card text-center'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCode],
+  imports: [CountdownComponent, ViewCode]
 })
-export class Demand { }
+export class Demand {}

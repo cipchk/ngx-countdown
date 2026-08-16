@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
+
 import { ViewCode } from './view-code';
 
 @Component({
@@ -21,24 +23,24 @@ import { ViewCode } from './view-code';
     </div>
   `,
   host: {
-    class: 'card text-center',
+    class: 'card text-center'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CountdownComponent, ViewCode],
+  imports: [CountdownComponent, ViewCode]
 })
 export class Actions {
   protected config: CountdownConfig = {
     leftTime: 60,
     format: 'HH:mm:ss',
-    prettyText: (text) => {
+    prettyText: text => {
       return text
         .split(':')
-        .map((v) => `<span class="item">${v}</span>`)
+        .map(v => `<span class="item">${v}</span>`)
         .join('');
-    },
+    }
   };
 
-  protected handleEvent(e: CountdownEvent) {
+  protected handleEvent(e: CountdownEvent): void {
     console.log('Actions', e);
   }
 }
