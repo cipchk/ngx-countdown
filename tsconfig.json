@@ -14,7 +14,6 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve",
-    "baseUrl": ".",
     "paths": {
       "ngx-countdown": [
         "./lib/src/public-api"
@@ -31,9 +30,6 @@
   "references": [
     {
       "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
     },
     {
       "path": "./lib/tsconfig.lib.json"

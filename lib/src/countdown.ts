@@ -1,3 +1,4 @@
+import { NgTemplateOutlet, formatDate } from '@angular/common';
 import {
   Component,
   OnDestroy,
@@ -10,13 +11,12 @@ import {
   input,
   effect,
   afterNextRender,
-  signal,
+  signal
 } from '@angular/core';
 
 import { CountdownConfig, CountdownStatus, CountdownEvent, CountdownEventAction, CountdownItem } from './interfaces';
-import { CountdownTimer } from './timer';
-import { NgTemplateOutlet, formatDate } from '@angular/common';
 import { COUNTDOWN_CONFIG } from './provide';
+import { CountdownTimer } from './timer';
 
 @Component({
   selector: 'countdown',
@@ -33,12 +33,12 @@ import { COUNTDOWN_CONFIG } from './provide';
       .count-down {
         font-variant-numeric: tabular-nums;
       }
-    `,
+    `
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet],
-  providers: [CountdownTimer],
+  providers: [CountdownTimer]
 })
 export class CountdownComponent implements OnDestroy {
   private readonly locale = inject(LOCALE_ID);
@@ -82,7 +82,7 @@ export class CountdownComponent implements OnDestroy {
       }
 
       this.restart();
-    })
+    });
   }
 
   /**
@@ -152,7 +152,7 @@ export class CountdownComponent implements OnDestroy {
         return formatDate(new Date(date), formatStr, this.locale, timezone || '+0000');
       },
       ...this.defCog,
-      ...this.config(),
+      ...this.config()
     };
     this._config = config;
     const frq = (this.frequency = ~config.format!.indexOf('S') ? 100 : 1000);
@@ -206,7 +206,7 @@ export class CountdownComponent implements OnDestroy {
     const { formatDate, format, timezone, prettyText, notify } = this._config;
     const item: CountdownItem = {
       value,
-      text: formatDate!({ date: value, formatStr: format!, timezone: timezone }),
+      text: formatDate!({ date: value, formatStr: format!, timezone: timezone })
     };
     if (typeof prettyText === 'function') {
       item.text = prettyText(item.text!);
